@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <parameters>
+    <parameter key="simple_form.validators.buildins.alpha_dash.class">Lianz\SimpleFormBundle\Validation\Validators\AlphaDashValidator</parameter>
+    <parameter key="simple_form.validators.buildins.alpha_numeric.class">Lianz\SimpleFormBundle\Validation\Validators\AlphaNumericValidator</parameter>
+    <parameter key="simple_form.validators.buildins.alpha.class">Lianz\SimpleFormBundle\Validation\Validators\AlphaValidator</parameter>
+    <parameter key="simple_form.validators.buildins.decimal.class">Lianz\SimpleFormBundle\Validation\Validators\DecimalValidator</parameter>
+    <parameter key="simple_form.validators.buildins.exact_length.class">Lianz\SimpleFormBundle\Validation\Validators\ExactLengthValidator</parameter>
+    <parameter key="simple_form.validators.buildins.greater_than.class">Lianz\SimpleFormBundle\Validation\Validators\GreaterThanValidator</parameter>
+    <parameter key="simple_form.validators.buildins.integer.class">Lianz\SimpleFormBundle\Validation\Validators\IntegerValidator</parameter>
+    <parameter key="simple_form.validators.buildins.is_natural_no_zero.class">Lianz\SimpleFormBundle\Validation\Validators\IsNaturalNoZeroValidator</parameter>
+    <parameter key="simple_form.validators.buildins.is_natural.class">Lianz\SimpleFormBundle\Validation\Validators\IsNaturalValidator</parameter>
+    <parameter key="simple_form.validators.buildins.less_than.class">Lianz\SimpleFormBundle\Validation\Validators\LessThanValidator</parameter>
+    <parameter key="simple_form.validators.buildins.matches.class">Lianz\SimpleFormBundle\Validation\Validators\MatchesValidator</parameter>
+    <parameter key="simple_form.validators.buildins.max_length.class">Lianz\SimpleFormBundle\Validation\Validators\MaxLengthValidator</parameter>
+    <parameter key="simple_form.validators.buildins.min_length.class">Lianz\SimpleFormBundle\Validation\Validators\MinLengthValidator</parameter>
+    <parameter key="simple_form.validators.buildins.numeric.class">Lianz\SimpleFormBundle\Validation\Validators\NumericValidator</parameter>
+    <parameter key="simple_form.validators.buildins.required.class">Lianz\SimpleFormBundle\Validation\Validators\RequiredValidator</parameter>
+    <parameter key="simple_form.validators.buildins.valic_base64.class">Lianz\SimpleFormBundle\Validation\Validators\ValidBase64Validator</parameter>
+    <parameter key="simple_form.validators.buildins.valid_email.class">Lianz\SimpleFormBundle\Validation\Validators\ValidEmailValidator</parameter>
+    <parameter key="simple_form.validators.buildins.regex.class">Lianz\SimpleFormBundle\Validation\Validators\RegexValidator</parameter>
+    <parameter key="simple_form.validators.buildins.valid_date.class">Lianz\SimpleFormBundle\Validation\Validators\ValidDateValidator</parameter>
+    <parameter key="simple_form.validators.buildins.valid_date_time.class">Lianz\SimpleFormBundle\Validation\Validators\ValidDateTimeValidator</parameter>
+  </parameters>
+
+  <services>
+    <service id="simple_form.validator" class="Lianz\SimpleFormBundle\Validation\Validator">
+      <argument type="service" id="service_container"></argument>
+    </service>
+    <service id="simple_form.processor" class="Lianz\SimpleFormBundle\Validation\Processor">
+      <argument type="service" id="service_container"></argument>
+    </service>
+    
+    <!-- processors -->
+    <service id="simple_form.processors.buildins.split" class="Lianz\SimpleFormBundle\Validation\Processors\SplitProcessor">
+    </service>
+
+    <service id="simple_form.twig_extensions.form_extension" class="Lianz\SimpleFormBundle\TwigExtension\FormExtension">
+      <tag name="twig.extension" />
+    </service>
+  </services>
+</container>

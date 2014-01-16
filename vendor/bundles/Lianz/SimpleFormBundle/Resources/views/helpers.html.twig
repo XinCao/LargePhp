@@ -1,0 +1,206 @@
+{% macro attrs(attrs={}) %}
+{% spaceless %}
+  {% for attrName, attrValue in attrs %}
+      {{ " #{attrName}=\"#{attrValue}\""|raw }}
+  {% endfor %}
+{% endspaceless %}
+{% endmacro %}
+
+{% macro label_begin(field, attrs={}) %}
+{% spaceless %}
+    {% import _self as sf %}
+    {% set attrs = {'for': field.name, 'class': 'control-label'}|merge(attrs) %}
+      <label {{ sf.attrs(attrs)}}>
+{% endspaceless %}
+{% endmacro %}
+
+{% macro label_end() %}
+{% spaceless %}
+    </label>
+{% endspaceless %}
+{% endmacro %}
+
+{% macro label(field, label_text, attrs={}, mark_required=' *') %}
+{% spaceless %}
+    {% import _self as sf %}
+    {{ sf.label_begin(field, attrs) }}
+      {{ label_text }}{{ mark_required and field.required ? mark_required : '' }}
+    {{ sf.label_end() }}
+{% endspaceless %}
+{% endmacro %}
+
+{% macro input(field, type, attrs={}, raw=false) %}
+{% spaceless %}
+  {% import _self as sf %}
+  {% set form = field.form %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': field.name }|merge(attrs) %}
+  {% endif %}
+  <input name="{{ field.name }}" value="{{ raw ? (field.value|raw) : field.value }}" type="{{ type }}" {{ sf.attrs(attrs)}} />
+{% endspaceless %}
+{% endmacro %}
+
+{% macro text(field, attrs={}, raw=false) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'text', attrs, raw) }}
+{% endmacro %}
+
+{% macro password(field, attrs={}) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'password', attrs, true) }}
+{% endmacro %}
+
+{% macro hidden(field, attrs={}) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'hidden', attrs, false) }}
+{% endmacro %}
+
+{% macro checkbox(field, value, text, attrs={}, label_attrs={}) %}
+  {% import _self as sf %}
+  {% if attrs.id is not defined %}
+    {% set id = field.name + '_' + field.value %}
+    {% set attrs = {'id': id }|merge(attrs) %}
+  {% endif %}
+  {% if field.value == value %}
+    {% set attrs = {'checked': 'checked' }|merge(attrs) %}
+  {% endif %}
+  {% set label_attrs = {'class': 'checkbox', 'for': attrs.id }|merge(label_attrs) %}
+  <label {{ sf.attrs(label_attrs) }}>
+    {{ sf.input(field, 'checkbox', attrs) }}
+    {{ text|raw }}
+  </label>
+{% endmacro %}
+
+{% macro radio(field, value, text, attrs={}, label_attrs={}) %}
+  {% import _self as sf %}
+  {% if attrs.id is not defined %}
+    {% set id = field.name + '_' + field.value %}
+    {% set attrs = {'id': id }|merge(attrs) %}
+  {% endif %}
+  {% if field.value == value %}
+    {% set attrs = {'checked': 'checked' }|merge(attrs) %}
+  {% endif %}
+  {% set label_attrs = {'class': 'radio', 'for': attrs.id }|merge(label_attrs) %}
+  <label {{ sf.attrs(label_attrs) }}>
+    {{ sf.input(field, 'radio', attrs) }}
+    {{ text|raw }}
+  </label>
+{% endmacro %}
+
+{% macro textarea(field, attrs={}, raw=false) %}
+  {% import _self as sf %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': field.name }|merge(attrs) %}
+  {% endif %}
+  <textarea name="{{ field.name }}" {{ sf.attrs(attrs)}}>{{ raw ? (field.value|raw) : field.value }}</textarea>
+{% endmacro %}
+
+{% macro select(field, options, translate=false, attrs={}) %}
+  {% import _self as sf %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': field.name }|merge(attrs) %}
+  {% endif %}
+  <select name="{{ field.name }}" {{ sf.attrs(attrs)}}>
+  {% for opt in options %}
+    <option value="{{ opt.value }}" {{ field.value == opt.value ? 'selected="selected"' : '' }}>
+      {% set opt_text = translate ? (opt.text|trans) : opt.text %}
+      {{ opt_text }}
+    </option>
+  {% endfor %}
+  </select>
+{% endmacro %}
+
+{% macro button(field, attrs={}) %}
+  {% import _self as sf %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': 'btn_' + field.name }|merge(attrs) %}
+  {% endif %}
+  {% set attrs = {'class': 'btn'}|merge(attrs) %}
+  <button name="{{ field.name }}" type="button" {{ sf.attrs(attrs)}}>{{ field.value }}</button>
+{% endmacro %}
+
+{% macro submit(text, input=true, attrs={}) %}
+  {% import _self as sf %}
+  {% if input %}
+    {% set attrs = {'name': 'btn_submit' }|merge(attrs) %}
+  {% endif %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': "btn_submit_#{text}" }|merge(attrs) %}
+  {% endif %}
+  {% set attrs = {'class': 'btn btn-primary'}|merge(attrs) %}
+  <button type="submit" {{ sf.attrs(attrs)}}>{{ text }}</button>
+{% endmacro %}
+
+{% macro rest(form, type='hidden', attrs={}, raw=false) %}
+  {% import _self as sf %}
+  {% set rest_fields = form.getUnrenderedFields() %}
+  {% for field in rest_fields %}
+    {{ sf.input(field, type, attrs, raw) }}
+  {% endfor %}
+{% endmacro %}
+
+{% macro error(field, translate=false, label_attrs={}) %}
+  {% if field.error %}
+    {% import _self as sf %}
+    {% set label_attrs = {'for': field.name, 'class': 'help-inline error'}|merge(label_attrs) %}
+    <label {{ sf.attrs(label_attrs)}}>
+      {% set error = translate ? (field.error|trans) : field.error %}
+      {{ error|raw }}
+    </label>
+  {% endif %}
+{% endmacro %}
+
+{% macro rules(form) %}
+  {% set rules = form.generateRules() %}
+  {% if rules %}
+    {{ rules|json_encode|raw }}
+  {% endif %}
+{% endmacro %}
+
+{# A shortcut macro to render a control group ( for Bootstrap css framework ) #}
+{% macro field(field, type, label_title, translate=false, label_attrs={}, widget_settings={}, error_attrs={}, controls_attrs={}) %}
+{% spaceless %}
+  {% import _self as sf %}
+
+  {% set widget_raw     = widget_settings.raw   is defined ? widget_settings.raw   : {} %}
+  {% set widget_attrs   = widget_settings.attrs is defined ? widget_settings.attrs : {} %}
+  {% set widget_desc    = widget_settings.desc  is defined ? widget_settings.desc  : null %}
+
+  {% set label_attrs    = {'class': 'control-label'}|merge(label_attrs) %}
+  {% set error_attrs    = {'class': 'help-inline error'}|merge(error_attrs) %}
+
+  {% set controls_attrs = {'class': 'controls'}|merge(controls_attrs) %}
+
+  <div class="control-group{{ field.error ? ' error' : ''}}">
+    {% set label_title = translate ? (label_title|trans) : label_title %}
+    {{ sf.label(field, label_title, label_attrs) }}
+    <div {{ sf.attrs(controls_attrs) }}>
+      {% if type == 'text' %}
+        {{ sf.text(field, widget_attrs, widget_raw) }}
+      {% elseif type == 'password' %}
+        {{ sf.password(field, widget_attrs) }}
+      {% elseif type == 'hidden' %}
+        {{ sf.hidden(field, widget_attrs) }}
+      {% elseif type == 'checkbox' or type == 'radio' %}
+        {% set widget_label_attrs = widget_settings.label_attrs is defined ? widget_settings.label_attrs : {} %}
+        {{ sf.checkbox(field, widget_settings.value, widget_settings.text, widget_attrs, widget_label_attrs) }}
+      {% elseif type == 'textarea' %}
+        {{ sf.textarea(field, widget_attrs, widget_raw) }}
+      {% elseif type == 'select' %}
+        {# select(field, options, translate=false, attrs={}) %} #}
+        {{ sf.select(field, widget_settings.options, translate, widget_attrs) }}
+      {% else %}
+        <!-- input type "{{ type }}" is not supported by this macro -->
+      {% endif %}
+      {% if widget_desc %}
+        <span class="help-block">{{ widget_desc }}</span>
+      {% endif %}
+      {{ sf.error(field, translate, error_attrs) }}
+     </div>
+  </div>
+{% endspaceless %}
+{% endmacro %}

@@ -1,0 +1,108 @@
+{% import ('LianzSimpleFormBundle::helpers.html.twig') as sf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        SimpleForm Demo
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="index,follow"/>
+    <link rel="shortcut icon" href="favicon.png" type="image/png"/>
+    {#{% stylesheets 'bundles/dreamheavenadmin/css/*' filter='cssrewrite' %}#}
+    {#{% endstylesheets %}#}
+    <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/bootstrap.css"/>
+    <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/widget.css"/>
+    <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/validate.css"/>
+
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.validate.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.ui.datepicker-zh-CN.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/additional-methods.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.form.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/bootstrap.js"></script>
+
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.exts.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.validate.messages.zh-cn.js"></script>
+</head>
+<body>
+  <header style="background-color: #000;color:#fff; width:100%; text-align:center;padding: 20px; border-bottom: solid 1px #eee;position: fixed;bottom: top;left: 0;">
+  <h1>SimpleForm Demo</h1>
+  </header>
+  <div class="container" style="padding-top: 150px;">
+    <script>
+      $(document).ready(function(){
+        common_options = {
+            errorClass: 'error',
+            errorPlacement: function(error, element) {
+               if (element.attr("name") == "all_servers")
+                 $("#servers_widget_container").append(error);
+               else
+                 error.insertAfter(element);
+             },
+            highlight: function(element, errorClass, validClass) {
+              $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            success: function(label) {
+              $(label).closest('.control-group').removeClass('error').addClass('success');
+              $(label).hide();
+            }
+        };
+
+        options = {
+            rules: {{ sf.rules(form) }}
+        };
+
+        options = $.extend({}, common_options, options);
+        $('#test_form').validate(options);
+      });
+    </script>
+
+    <div class="row">
+      {% if form._token is defined and form._token.error %}
+      <div class="span12">
+        <div class="row alert-message">
+          <div class="span12">
+            <div class="alert alert-error">
+                {{ form._token.error|trans }}
+              <button class="close" data-dismiss="alert">&times;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="span2">
+      </div>
+      <div class="span10">
+        <form class="form-horizontal" id="test_form" method="POST" action="{{path('simple_form_demo_flexible')}}">
+
+          {# field(field, type, label_title, translate=false, label_attrs={}, widget_settings={}, error_attrs={}, controls_attrs={}) %} #}
+          {{ sf.field(form.username,  'text',     '用户名',   true, {}, {'attrs': {'placeholder': '只接受字母数字、下划线和减号'}}) }}
+          {{ sf.field(form.email,     'text',     '电子邮件', true, {}, {'attrs': {'placeholder': '请输入电子邮件'} }) }}
+          {{ sf.field(form.password1, 'password', '密码',     true, {}, {'attrs': {'placeholder': '密码最短为 6 个字符'} }) }}
+          {{ sf.field(form.password2, 'password', '确认密码', true, {}, {'attrs': {'placeholder': '请再次输入密码'} }) }}
+          {{ sf.field(form.nickname,  'text',     '昵称',     true, {}, {'attrs': {'placeholder': '昵称只能由字母组成'} }) }}
+          {{ sf.field(form.firstname, 'text',     '姓氏',     true, {}, {'attrs': {'placeholder': '姓氏只能由字母组成'} }) }}
+          {{ sf.field(form.lastname,  'text',     '名字',     true, {}, {'attrs': {'placeholder': '名字只能由字母组成'} }) }}
+          {{ sf.field(form.intro,     'textarea', '自我简介', true, {}, {'attrs': {'rows': '3', 'placeholder': '请输入个人简介'} }) }}
+
+          <div class="control-group">
+            <div class="controls">
+              {{ sf.rest(form) }}
+              {{ sf.submit('添加白名单', {'id': 'btn_submit', 'class': 'btn btn-primary confirm_required'}) }}
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer style="width:100%; text-align:center;border-top: solid 1px #eee;padding-top: 10px;margin-top: 20px;position: fixed;bottom: 0;left: 0;">
+      {% set year = "now"|date('Y') %}
+      <p>&copy;{{ year }} SimpleFormBundle，保留所有权利</p>
+  </footer>
+</body>
+</html>

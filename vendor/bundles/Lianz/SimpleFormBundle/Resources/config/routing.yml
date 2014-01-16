@@ -1,0 +1,7 @@
+simple_form_demo_simple:
+  pattern:      /demo-simple
+  defaults:     {_controller: LianzSimpleFormBundle:SimpleFormDemo:simple}
+
+simple_form_demo_flexible:
+  pattern:      /demo-flexible
+  defaults:     {_controller: LianzSimpleFormBundle:SimpleFormDemo:flexible}
