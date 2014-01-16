@@ -1,0 +1,3 @@
+[submodule "LianzSimpleFormBundle"]
+	path = LianzSimpleFormBundle
+	url = https://github.com/lianz/LianzSimpleFormBundle.git
