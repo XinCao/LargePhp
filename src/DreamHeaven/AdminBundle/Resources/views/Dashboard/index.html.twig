@@ -1,0 +1,24 @@
+{% extends 'DreamHeavenAdminBundle::layout-Dashboard.html.twig' %}
+{% use('DreamHeavenAdminBundle::Shared/sidebarMenu.html.twig') %}
+
+{% block title %}
+首页 | 摩卡世界运营系统
+{% endblock %}
+
+{% block sidebar %}
+  {{ block('sidebar_menu') }}
+{% endblock %}
+
+{% block main_content %}
+<div class="row-fluid">
+    <div class="span3">
+        {{ widget('UserInfo') }}
+    </div>
+    <div class="span3">
+        {{ widget('Hello') }}
+    </div>
+    <!--/span-->
+</div>
+<!--/row-->
+<!--/span-->
+{% endblock %}

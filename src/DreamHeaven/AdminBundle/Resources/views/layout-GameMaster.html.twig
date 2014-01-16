@@ -1,0 +1,7 @@
+{% extends 'DreamHeavenAdminBundle::layout-Base.html.twig' %}
+{% use('DreamHeavenAdminBundle::Shared/sidebarMenu.html.twig') %}
+{% use('DreamHeavenAdminBundle::GameMaster/menus.html.twig') %}
+
+{% block sidebar %}
+  {{ block('sidebar_menu') }}
+{% endblock %}

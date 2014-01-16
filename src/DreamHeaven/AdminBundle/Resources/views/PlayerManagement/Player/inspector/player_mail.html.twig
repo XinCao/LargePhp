@@ -1,0 +1,28 @@
+{% if player_info['player_mail'] is defined  %}
+<div class="tab-pane" id="player_mail">
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th style="width: 50px;">邮件ID</th>
+            <th style="width: 80px;">发信人</th>
+            <th>邮件内容</th>
+            <th style="width: 100px;">附件一</th>
+            <th style="width: 100px;">附件二</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for info in player_info['player_mail'] %}
+            {% set itemInfo1 = info['attach_item_count1'] > 0 ? "#{info['attach_item_id1']} x #{info['attach_item_count1']} 个" : '<无>' %}
+            {% set itemInfo2 = info['attach_item_count2'] > 0 ? "#{info['attach_item_id2']} x #{info['attach_item_count2']} 个" : '<无>' %}
+            <tr>
+               <td>{{ info['mail_id'] }}</td>
+               <td>{{ info['sender_name'] }}</td>
+               <td>{{ info['mail_text'] }}</td>
+               <td>{{ itemInfo1 }} </td>
+               <td>{{ itemInfo2 }} </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

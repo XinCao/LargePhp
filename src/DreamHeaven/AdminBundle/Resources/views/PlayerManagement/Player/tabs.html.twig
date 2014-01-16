@@ -1,0 +1,27 @@
+{% block tabs %}
+{%
+set tabs = [
+             {
+                'name':                 '踢玩家下线',
+                'route':                'admin_player_management_player_kick',
+             },
+             {
+                'name':                 '发邮件',
+                'route':                'admin_player_management_player_send_mail',
+             },
+             {
+                'name':                 '查看玩家信息',
+                'route':                'admin_player_management_player_inspect',
+                'access':               'ROLE_MANAGER',
+             },
+             {
+                'name':                 '角色数据修改',
+                'route':                'admin_player_management_player_data_manipulation',
+                'access':               'ROLE_MANAGER',
+             },
+           ]
+%}
+<div class="row-fluid">
+    {{ knp_menu_render('DreamHeavenAdminBundle:TabBuilder:tabs', {'currentClass': 'active', 'tabs': tabs}) }}
+</div>
+{% endblock %}

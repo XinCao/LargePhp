@@ -1,0 +1,46 @@
+{% if player_info['pvp_info'] is defined  %}
+{% set pvp = player_info['pvp_info'] %}
+{% set total = pvp['victory_count'] + pvp['fail_count'] + pvp['runaway_count'] %}
+{% set victoryRate = 0 %}
+{% if total %}
+{%   set victoryRate = pvp['victory_count'] / total * 100 %}
+{% endif %}
+
+<div class="tab-pane" id="pvp_info">
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th style="width: 200px;">指标</th>
+            <th>值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+             <td>战斗评级</td>
+             <td>{{ pvp['combat_rating'] }}</td>
+          </tr>
+          <tr>
+             <td>战斗次数</td>
+             <td>{{ total }}</td>
+          </tr>
+          <tr>
+             <td>胜率</td>
+             <td>{{ '%.1f%%'|format(victoryRate) }}</td>
+          </tr>
+          <tr>
+             <td>胜利次数</td>
+             <td>{{ pvp['victory_count'] }}</td>
+          </tr>
+          <tr>
+             <td>失败次数</td>
+             <td>{{ pvp['fail_count'] }}</td>
+          </tr>
+          <tr>
+             <td>逃跑次数</td>
+             <td>{{ pvp['runaway_count'] }}</td>
+          </tr>
+        </tbody>
+    </table>
+
+</div>
+{% endif %}

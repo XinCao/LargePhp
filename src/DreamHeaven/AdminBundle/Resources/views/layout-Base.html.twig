@@ -1,0 +1,30 @@
+{% set current_platform = app.request.get('platform') -%}
+{% set current_route = app.request.attributes.get('_route') -%}
+{% set current_route_params = app.request.attributes.get('_route_params') -%}
+{% set is_dev = app.environment == 'dev' -%}
+
+{% use('DreamHeavenAdminBundle::Shared/header.html.twig') %}
+{% use('DreamHeavenAdminBundle::Shared/footer.html.twig') %}
+{% use('DreamHeavenAdminBundle::Shared/flashMessage.html.twig') %}
+{% spaceless %}
+{{ block('doc_header') }}
+{{ block('header') }}
+
+{% block container %}
+  <section id="content">
+  <div class="container{{ fluid_layout is defined ? '-fluid' : ''}}">
+      <div class="row{{ fluid_layout is defined ? '-fluid' : ''}}">
+          <div class="{{ fluid_layout is defined ? 'span2' : 'span3'}}">
+              {{ block('sidebar') }}
+          </div>
+          <div class="{{ fluid_layout is defined ? 'span10' : 'span9'}}" id="main_content_span">
+              {{ block('flash_message') }}
+              {% block main_content %}{% endblock %}
+          </div>
+      </div>
+  </div>
+  </section>
+{% endblock %}
+
+{{ block('footer') }}
+{% endspaceless %}

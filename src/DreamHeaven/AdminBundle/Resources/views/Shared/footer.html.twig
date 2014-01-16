@@ -1,0 +1,10 @@
+{% block footer %}
+<footer style="text-align:center;border-top: solid 1px #eee;padding-top: 10px;margin-top: 20px;">
+    <div class="container-fluid">
+        {% set year = "now"|date('Y') %}
+        <p>&copy; 梦想天堂 2012 - {{ year }}，保留所有权利</p>
+    </div>
+</footer>
+</body>
+</html>
+{% endblock %}

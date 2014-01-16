@@ -1,0 +1,10 @@
+admin_game_management_server_info_index:
+  pattern:      /server-info
+  defaults:     {_controller: DreamHeavenAdminBundle:GameManagement\ServerInfo:index}
+  requirements: {_method: GET}
+
+#从服务器获得当前充值的数
+admin_game_management_current_recharge_index:
+  pattern:      /current-recharge/index
+  defaults:     {_controller: DreamHeavenAdminBundle:GameManagement\CurrentRecharge:index}
+  requirements: {_method: GET}

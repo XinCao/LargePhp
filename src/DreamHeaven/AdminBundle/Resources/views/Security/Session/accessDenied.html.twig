@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html>
+<head>
+    <title>
+        拒绝访问 - 画说客服系统
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="index,follow"/>
+    <link rel="shortcut icon" href="favicon.png" type="image/png"/>
+    {#{% stylesheets 'bundles/dreamheavenadmin/css/*' filter='cssrewrite' %}#}
+    {#{% endstylesheets %}#}
+    <link rel="stylesheet" href="/bundles/dreamheavenadmin/css/bootstrap.css"/>
+    <script src="/bundles/dreamheavenadmin/js/jquery.min.js"></script>
+    <script src="/bundles/dreamheavenadmin/js/bootstrap.js"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+        });
+    </script>
+
+    {% block extra_style_block %}
+    {% endblock %}
+
+    {% block extra_script_block %}
+    {% endblock %}
+</head>
+<body>
+{#<header style="background-color: #000;color:#fff; width:100%; text-align:center;padding: 20px; border-bottom: solid 1px #eee;position: fixed;bottom: top;left: 0;">#}
+{#<h1>access_denied_url</h1>#}
+{#</header>#}
+
+<div class="container-fluid">
+    <div class="modal login-form">
+        <div class="modal-header" style="text-align: center;">
+            <h3 style="color: #B94A48;">错误</h3>
+            <h6 style="margin-left: 10px;"></h6>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-error hide" id="error">
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <h2>你没有权限执行这个操作</h2>
+                    <div style="padding-top: 20px;">本次操作的详细信息已经被系统记录下来并报告给管理员。</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-primary" href="javascript:history.go(-1)"><i class="icon-chevron-left icon-white"></i> 返回</a>
+            <a class="btn btn-danger" href="{{ path('admin_session_logout') }}"><i class="icon-user icon-white"></i> 重新登录<a/>
+        </div>
+    </div>
+</div>
+
+<footer style="width:100%; text-align:center;border-top: solid 1px #eee;padding-top: 10px;margin-top: 20px;position: fixed;bottom: 0;left: 0;">
+    {% set year = "now"|date('Y') %}
+    <p>&copy; 喜讯无限 2010 - {{ year }}，保留所有权利</p>
+    <p>
+        <a href="http://www.miibeian.gov.cn" target="_new">京ICP证110423号 京ICP备10049432号</a>
+    </p>
+</footer>
+</body>
+</html>

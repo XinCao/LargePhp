@@ -1,0 +1,40 @@
+{% if player_info['common_data'] is defined %}
+{%
+ set attrs = {
+     'player_name':           '玩家角色名',
+     'vip_level':             'vip等级',
+     'contiune_login_day':    '持续登陆天数',
+     'cube_size':             '包裹扩展大小',
+     'login_day_count':       '总登陆天数',
+     'vip_exp':               'vip经验',
+     'class':                 '职业',
+     'obj_id':                '玩家id',
+     'prefession':            '转职',
+     'exp':                   '经验值',
+     'faction_guid':          '工会guid',
+     'level':                 '等级',
+     'alchemy_point':         '修为值',
+     'skill_point':           '熟练值',
+     'faction_id':            '工会id',
+     }
+ %}
+<div class="tab-pane active" id="common_data">
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th style="width: 200px;">属性</th>
+            <th>值</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key, value in player_info['common_data'] %}
+            <tr>
+                  <td>{{ attrs[key] is defined ? attrs[key] : key }}</td>
+                  <td>{{ value }}</td>
+              </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endif %}

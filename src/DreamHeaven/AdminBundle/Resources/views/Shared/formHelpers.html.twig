@@ -1,0 +1,17 @@
+{% macro render_field(field, label_options, widget_options, error_options) %}
+    {% set vars = field.vars %}
+    {% set label_options  = label_options  ? label_options  : {'attr': {'class': 'control-label'}} %}
+    {% set widget_options = widget_options ? widget_options : {} %}
+    {% set error_options  = error_options  ? error_options  : {'attr': {'class': 'help-inline'}} %}
+    <div class="control-group {{ vars.errors ? ' error' : ''}}">
+        {{ form_label(field, null, label_options) }}
+         <div class="controls docs-input-sizes">
+             {{ form_widget(field, widget_options) }}
+             {% if vars.errors %}
+                 {% for error in vars.errors %}
+                 {{ form_label(field, error.getMessageTemplate(), error_options) }}
+                 {% endfor %}
+             {% endif %}
+         </div>
+    </div>
+{% endmacro %}

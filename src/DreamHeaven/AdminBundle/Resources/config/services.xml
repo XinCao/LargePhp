@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="dreamheaven.services.admin.admin_account_provider" class="DreamHeaven\AdminBundle\Service\AdminAccountProvider">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="logger" />
+
+            <tag name="monolog.logger" channel="AdminAccountProvider" />
+        </service>
+        <service id="admin_account_provider" alias="dreamheaven.services.admin.admin_account_provider" />
+
+        <service id="dreamheaven.services.admin.twig.extensions.user_extension" class="DreamHeaven\AdminBundle\Twig\UserExtension">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="dreamheaven.services.admin.twig.extensions.widget_extension" class="DreamHeaven\AdminBundle\Twig\WidgetExtension">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="dreamheaven.services.admin.twig.extensions.mention_extension" class="DreamHeaven\AdminBundle\Twig\MentionExtension">
+            <argument type="service" id="router" />
+            <argument type="service" id="logger" />
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="dreamheaven.services.gm_service" class="DreamHeaven\AdminBundle\Service\GmService">
+            <argument type="service" id="doctrine.dbal.default_connection" />
+            <argument type="service" id="dreamheaven.services.url_fetch_service" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="gm_service"     alias="dreamheaven.services.gm_service" />
+
+        <service id="dreamheaven.services.operation_logging_service" class="DreamHeaven\AdminBundle\Service\OperationLoggingService">
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="doctrine.dbal.default_connection" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="op_logging_service" alias="dreamheaven.services.operation_logging_service" />
+
+        <service id="admin_login_redirector" class="DreamHeaven\AdminBundle\Service\AdminLoginRedirector">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.http_utils" />
+        </service>
+        <service id="op_logging_service" alias="dreamheaven.services.operation_logging_service" />
+    </services>
+</container>

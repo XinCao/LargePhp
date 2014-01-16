@@ -1,0 +1,10 @@
+parameters:
+  default_platform: serverlist
+  platforms:
+    ############################################################################
+    serverlist:
+      # 服务器列表使用
+      name:         服务器列表
+      gifts_db:     root:asdf@127.0.0.1:3306/game_logs?charset=utf8
+      game_logs_db: root:asdf@127.0.0.1:3306/game_logs?charset=utf8
+    ############################################################################

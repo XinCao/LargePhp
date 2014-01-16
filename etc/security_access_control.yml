@@ -1,0 +1,17 @@
+security:
+  access_control:
+    - { path: "^/server-info",                  role: IS_AUTHENTICATED_ANONYMOUSLY}
+    - { path: "^/admin/login",                  role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: "^/admin/access-denied",          role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: "^/admin/settings",               role: IS_AUTHENTICATED_FULLY }
+    - { path: "^/admin/game-management/overview",                       role: ROLE_GM}
+    - { path: "^/admin/game-management",                                role: ROLE_MANAGER}
+    - { path: "^/admin/player-management",                              role: ROLE_GM }
+    - { path: "^/admin/player-management/player",                       role: ROLE_MANAGER }
+    - { path: "^/admin/game-master",                                    role: ROLE_MANAGER }
+    - { path: "^/admin/operation-reports",                              role: ROLE_REPORT_VIEWER }
+    - { path: "^/admin/",                                               role: ROLE_ADMIN }
+    # for debug purpose only
+    - { path: "^/_wdt/",                        role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: "^/_profiler/",                   role: IS_AUTHENTICATED_ANONYMOUSLY }
+    # for debug purpose only

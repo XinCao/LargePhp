@@ -1,0 +1,17 @@
+{% block sidebar_menu_body %}
+  {%
+  set menu = {
+    'name':   '游戏管理菜单',
+    'items':  [
+                {
+                   'label':                '服务器总览',
+                   'route':                'admin_game_management_overview_index',
+                   'icon':                 'icon-eye-open',
+                   'access':               'ROLE_GM',
+                },
+              ]
+  }
+
+  %}
+  {{ knp_menu_render('DreamHeavenAdminBundle:MenuBuilder:build', {'currentClass': 'active', 'menu': menu }) }}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% set selected_realms  = selected_realms is defined ? selected_realms : [] %}
+{% set all_realms_field_name = 'all_realms' %}
+{% set all_realms_value = form is defined and form.all_realms is defined ? form.all_realms.raw_value : null %}
+    <script type=text/javascript>
+        $(document).ready(function(){
+              $('#all_realms').change(function(){
+                if($('#all_realms').attr('checked') === 'checked') {
+                  $('.chkbox_server').attr('checked', 'checked');
+                 }else {
+                  $('.chkbox_server').removeAttr('checked');
+                 }
+              });
+
+            $.validator.addMethod("server_selected", function(value, element) {
+              return $('.chkbox_server:checked').size() > 0;
+            }, "至少选择一个服务器");
+          });
+    </script>
+    <div class="control-group">
+        <label class="control-label" for="{{ all_realms_field_name }}"></label>
+    </div>
+    <div class="control-group">
+        <label class="control-label">请选择服务器</label>
+    </div>
+    <div class="controls"  id="servers_widget_container">
+        <div style="padding-bottom: 10px;">
+            <label class="checkbox inline" style="width: 150px; margin-left: 0px;" for="{{ all_realms_field_name }}">
+                <input type="checkbox" id="all_realms" name="all_realms" value="1" {{ all_realms_value ? 'checked="checked"' : '' }} />
+                选定所有
+            </label>
+        </div>
+        {% for id, info in realms %}
+        {% set current_realm = id %}
+        <label class="checkbox inline" style="width: 150px; margin-left: 0px;" for="chk-server-{{ current_realm }}">
+            <input type="checkbox"
+                   name="selected_realms[]"
+                   class="chkbox_server"
+                   id="chk-server-{{ current_realm }}"
+                   value="{{ current_realm }}"
+                   {{ all_realms_value or current_realm in selected_realms ? "checked=checked" : '' }}
+            />
+            {{ info.full_name }}
+        </label>
+        {% endfor %}
+    </div>

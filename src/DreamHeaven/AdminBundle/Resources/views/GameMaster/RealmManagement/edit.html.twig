@@ -1,0 +1,79 @@
+{% extends 'DreamHeavenAdminBundle::layout-GameMaster.html.twig' %}
+{% use('DreamHeavenAdminBundle::Shared/sidebarMenu.html.twig') %}
+{% use('DreamHeavenAdminBundle::GameMaster/menus.html.twig') %}
+{% import ('LianzSimpleFormBundle::helpers.html.twig') as sf %}
+
+{% block title %}
+服务器管理 | 后台管理
+{% endblock %}
+
+{% block sidebar %}
+  {{ block('sidebar_menu') }}
+{% endblock %}
+
+{% block extra_script_block %}
+<script language="javascript">
+    $(document).ready(function() {
+        $('#btn-new-realm').click(function(e){
+            e.preventDefault();
+            $('#realms tr:last').before('<tr><td></td><td><input name="new:num[]" type="text" class="input-small" /></td>' +
+                                        '<td><input name="new:name[]" type="text" class="span12" /></td>' +
+                                        '<td><select name="new:type[]" class="input-small"><option value="0">普通服</option><option value="1">热门服</option><option value="2">新服</option><option value="3">推荐服</option><option value="4">测试服</option></select></td>' +
+                                        '<td><input name="new:address[]" type="text" class="input-medium" /></td>' +
+                                        '<td><input name="new:mgmt_address[]" type="text" class="input-medium" /></td></tr>');
+        });
+    });
+</script>
+{% endblock %}
+
+{% block main_content %}
+<div class="row-fluid">
+  <form class="form form-horizontal" method="POST" action="{{path('admin_game_master_realm_management_edit')}}">
+    <fieldset>
+      <legend>服务器列表管理</legend>
+      <table id="realms" class="table table-bordered">
+        <thead>
+          <tr>
+            <td style="width: 30px;"></td>
+            <td style="width: 30px;">服务器序号</td>
+            <td style="width: 100%;">名字</td>
+            <td style="width: 100px;">类型</td>
+            <td style="width: 250px;">服务器地址(客户端连接用)</td>
+            <td style="width: 250px;">管理地址(后台用)</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for realm in realms %}
+            <tr>
+              <td><input name="selected_ids[]" value="{{ realm.id }}" type="checkbox" /></td>
+              <td><input name="ids[]" value="{{ realm.id }}" type="hidden" />
+                <input name="{{ realm.id }}:num" value="{{ realm.realm_num }}" type="text" class="input-small" /></td>
+              <td><input name="{{ realm.id }}:name" value="{{ realm.name }}" type="text" class="span12" /></td>
+              <td>
+                  {% set types = {'0': '普通服', '1': '热门服', '2': '新服', '3': '推荐服', '4': '测试服'} %}
+                  <select name="{{ realm.id }}:type" class="input-small">
+                      {% for type, type_name in types %}
+                          <option value="{{ type }}"{{ realm.type == type ? ' selected="selected"' : '' }}>{{ type_name }}</option>
+                      {% endfor %}
+                  </select>
+              </td>
+              <td><input name="{{ realm.id }}:address" value="{{ realm.address }}" type="text" class="input-medium" /></td>
+              <td><input name="{{ realm.id }}:mgmt_address" value="{{ realm.mgmt_address }}" type="text" class="input-medium" /></td>
+            </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="5">
+              <button id="btn-new-realm" class="btn btn-success"><i class="icon-plus"></i> 添加服务器</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <button id="btn-save-realms" class="btn btn-primary" name="action" value="save"><i class="icon-ok"></i> 保存服务器列表</button>&nbsp;
+        <button id="btn-delete-selected-realms" class="btn btn-danger" name="action" value="delete"><i class="icon-remove"></i> 删除选中的服务器</button>
+      </p>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

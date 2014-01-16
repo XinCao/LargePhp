@@ -1,0 +1,166 @@
+{% block doc_header %}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="not-ie" lang="en">
+    <html>
+        <head>
+            <title>{% block title %}{% endblock %}</title>
+            <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="robots" content="index,follow"/>
+            <link rel="shortcut icon" href="favicon.png" type="image/png"/>
+            <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/bootstrap.css"/>
+            <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/widget.css"/>
+            <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/validate.css"/>
+            <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/jquery.jcrop.css"/>
+            <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/jquery-ui.css"/>
+            <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/smoothness/jquery-ui-1.8.21.custom.css"/>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.validate.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery-ui-1.8.21.custom.min.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.ui.datepicker-zh-CN.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery-ui-slide.min.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery-ui-timepicker-addon.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/additional-methods.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.form.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/bootstrap.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.flot.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.flot.pie.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.exts.js"></script>
+            <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.validate.messages.zh-cn.js"></script>
+            <style type="text/css">
+                    body {
+                        padding-top: 60px;
+                        padding-bottom: 40px;
+                    }
+
+                    .sidebar-nav {
+                        padding: 9px 0;
+                    }
+
+                    #main_content_span {
+                        margin-left: 15px;
+                        padding-left: 14px;
+                        border-left: 1px solid #eee;
+                    }
+            </style>
+
+            <script language="javascript">
+                  common_validation_options = {
+                      errorClass: 'error help-inline',
+                      errorPlacement: function(error, element) {
+                         if (element.attr("name") == "all_servers")
+                           $("#servers_widget_container").append(error);
+                         else if (element.attr("name") == "chk_kick_all")
+                           error.insertAfter("#user_info_checker_container");
+                         else
+                           error.insertAfter(element);
+                       },
+                      highlight: function(element, errorClass, validClass) {
+                        $(element).closest('.control-group').removeClass('success').addClass('error');
+                      },
+                      success: function(label) {
+                        $(label).closest('.control-group').removeClass('error').addClass('success');
+                        $(label).remove();
+                      }
+                  };
+
+                  $(document).ready(function() {
+                      $(".alert-message").alert();
+                      $(".alert-message").hide().delay(10).slideDown().delay(5000).slideUp();
+
+                      $('.confirm_required').click(function(e){
+                        if(!confirm('确定要执行操作吗？')) {
+                          e.preventDefault();
+                          return;
+                        }
+                      });
+                  });
+            </script>
+            {% block extra_style_block %}
+            {% endblock %}
+            {% block extra_script_block %}
+            {% endblock %}
+        </head>
+        <body>
+{% endblock %}
+
+{% block header %}
+        <section id="header">
+            <div class="navbar navbar-fixed-top navbar-inverse" {{ is_dev ? 'style="border-top: 1px solid red;"' : '' }}>
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        {% if is_dev %}
+                        <a class="brand" style="color: red;" href="javascript:alert('当前环境为开发环境，请注意不要在生产机上启用开发环境');">DEV</a>
+                        {% endif %}
+                        <a class="brand" href="{{ path('admin_game_master_overview_index') }}">梦想天堂运营系统</a>
+                        <div class="btn-group pull-right">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-user"></i> {{ current_user.display_name }}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('admin_settings_account_edit') }}">我的账号</a></li>
+                                {#
+                                {% if app.debug and is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+                                  <!--
+                                    <li class="divider"></li>
+                                    <li><a href="{{ path(current_route, {'_switch_user': 'test1'}) }}">扮演 test1 用户</a></li>
+                                  -->
+                                {% endif %}
+                                #}
+                                <li class="divider"></li>
+                                <li><a href="{{ path('admin_session_logout') }}">注销</a></li>
+                            </ul>
+                        </div>
+                        {% block top_nav_bar %}
+                        {% if platforms %}
+                        {% set cur_platform = app.request.get('platform')|default(default_platform) %}
+                        <div class="btn-group btn-mini pull-left" style="margin-right: 0px;">
+                            {% for pid, pinfo in platforms %}
+                            {% if pid == cur_platform %}
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                {{ pinfo.name }}平台
+                                <span class="caret"></span>
+                            </a>
+                            {% endif %}
+                            {% endfor %}
+                            <ul class="dropdown-menu">
+                            {% for pid, pinfo in platforms %}
+                            {% set route_params = current_route_params|merge({'platform': pid}) %}
+                            {% if pid != 'dev' or (pid == 'dev' and is_dev) %}
+                                <li{{ pid == cur_platform ? ' class="disabled"' : '' }}><a href="{{ path(current_route, route_params) }}">切换到{{ pinfo.name }}平台</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        <div class="nav-collapse">
+                            <ul class="nav">
+                                <!--
+                                <li class="{{ current_route == 'admin_dashboard' ? 'active' : ''}}">
+                                  <a href="{{ path('admin_dashboard') }}">首页</a>
+                                </li>
+                                -->
+                                <li class="{{ current_route|slice(0, 'admin_game_master'|length) == 'admin_game_master' ? 'active' : ''}}">
+                                    <a href="{{ path('admin_game_master_overview_index') }}">后台管理</a>
+                                </li>
+                                <li class="{{ current_route|slice(0, 'admin_game_management'|length) == 'admin_game_management' ? 'active' : ''}}">
+                                    <a href="{{ path('admin_game_management_overview_index') }}">游戏管理</a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}

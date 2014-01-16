@@ -1,0 +1,94 @@
+{% block sidebar_menu_body %}
+  {%
+  set menu = {
+    'name':   '游戏管理菜单',
+    'items':  [
+                {
+                   'label':   '玩家管理',
+                   'route':   'admin_player_management_player_kick',
+                   'group':   'admin_player_management_player',
+                   'icon':    'icon-hand-right',
+                   'access':  'ROLE_MANAGER',
+                },
+                {
+                   'label':   '总览',
+                   'route':   'admin_player_management_overview_index',
+                   'enabled': false,
+                },
+                {
+                    'label':  '道具管理',
+                    'route':  'admin_player_management_item_management_log',
+                    'group':  'admin_player_management_item_management', 
+                    'icon':   'icon-hand-right',
+                    'access':  'ROLE_GM',
+                },
+                  {
+                     'label': '帐号管理',
+                     'route': 'admin_player_management_account_management_log',
+                     'group': 'admin_player_management_acccout_management',
+                     'icon':  'icon-hand-right',
+                     'access':  'ROLE_GM',
+                  },
+                  {
+                     'label': '金钱管理',
+                     'route': 'admin_player_management_money_management_log',
+                     'group': 'admin_player_management_money_management',
+                     'icon':  'icon-hand-right',
+                     'access':'ROLE_MANAGER',
+                  },          
+                  {
+                     'label': '钻石管理',
+                     'route': 'admin_player_management_gold_management_log',
+                     'group': 'admin_player_management_gold_management',
+                     'icon':  'icon-hand-right',
+                     'access': 'ROLE_GM',
+                  },          
+                  {
+                     'label': '经验管理',
+                     'route': 'admin_player_management_experience_management_log',
+                     'group': 'admin_player_management_experience_management',
+                     'icon':  'icon-hand-right',
+                     'access': 'ROLE_GM',
+                  },
+                  {
+                     'label': '购买管理',
+                     'route': 'admin_player_management_purchase_management_log',         
+                     'group': 'admin_player_management_purchase_management',         
+                     'icon':  'icon-hand-right',
+                     'access': 'ROLE_GM',
+                  },
+                  {
+                     'label': '工会管理',
+                     'route': 'admin_player_management_faction_management_info',
+                     'group': 'admin_player_management_faction_management',
+                     'icon':  'icon-hand-right',
+                     'access': 'ROLE_GM',
+                  },
+                  {
+                     'label': '玩家升级图表',
+                     'route': 'admin_player_management_chart_player_level_process',
+                     'group': 'admin_player_management_chart',
+                     'icon':  'icon-hand-right',
+                     'access': 'ROLE_GM',
+                  },  
+                  {
+                     'label': '礼包使用查询',
+                     'route': 'admin_player_management_gift_bag_query',
+                     'group': 'admin_player_management_gift_bag',
+                     'icon':  'icon-hand-right',
+                     'access': 'ROLE_GM',
+                  },        
+                  {
+                     'label': '登录在先奖励',
+                     'route': 'admin_player_management_online_reward_money',
+                     'group': 'admin_player_management_online_reward',
+                     'icon':  'icon-download-alt',
+                     'access': 'ROLE_GM',
+                  },        
+              ]
+}
+
+  %}
+
+  {{ knp_menu_render('DreamHeavenAdminBundle:MenuBuilder:build', {'currentClass': 'active', 'menu': menu }) }}
+{% endblock %}

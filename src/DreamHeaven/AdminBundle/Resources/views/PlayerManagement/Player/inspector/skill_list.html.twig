@@ -1,0 +1,24 @@
+{% if player_info['skill_list'] is defined  %}
+<div class="tab-pane" id="skill_list">
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>技能名字</th>
+            <th>技能 ID</th>
+            <th>技能等级</th>
+            <th>技能plus</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for info in player_info['skill_list'] %}
+            <tr>
+               <td>{{ info['skill_id'] }}</td>
+               <td>{{ info['skill_id'] }}</td>
+               <td>{{ info['skill_lvl'] }}</td>
+               <td>{{ info['skill_plus'] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

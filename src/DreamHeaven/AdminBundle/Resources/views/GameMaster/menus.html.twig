@@ -1,0 +1,53 @@
+{% block sidebar_menu_body %}
+  {%
+  set menu = {
+    'name':   '后台管理菜单',
+    'items':  [
+                {
+                   'label':                '总览',
+                   'route':                'admin_game_master_overview_index',
+                   'icon':                 'icon-list',
+                   'access':               'ROLE_REPORTER',
+                },
+                {
+                   'label':                '服务器列表',
+                   'route':                'admin_game_master_realm_management_edit',
+                   'group':                'admin_game_master_realm_management',
+                   'icon':                 'icon-th',
+                   'access':               'ROLE_MANAGER',
+                },
+                {
+                   'label':                '帐号管理',
+                   'route':                'admin_game_master_user_management_index',
+                   'group':                'admin_game_master_user_management',
+                   'icon':                 'icon-user',
+                   'access':               'ROLE_MANAGER',
+                },
+                {
+                   'label':                '操作记录',
+                   'route':                'admin_game_master_operation_log_view_logs',
+                   'group':                'admin_game_master_operation_log_view',
+                   'icon':                 'icon-list',
+                   'access':               'ROLE_MANAGER',
+                },
+              ]
+  }
+
+  %}
+  {#
+                {
+                   'label':                '用户组管理',
+                   'route':                'admin_game_master_group_management_index',
+                   'group':                'admin_game_master_group_management',
+                },
+               {
+                  'label':                'IP限制管理',
+                  'route':                'admin_game_master_ip_restriction',
+               },
+               {
+                  'label':                '白名单使用记录查询',
+                  'route':                'admin_game_master_ip_restriction',
+               },
+  #}
+  {{ knp_menu_render('DreamHeavenAdminBundle:MenuBuilder:build', {'currentClass': 'active', 'menu': menu }) }}
+{% endblock %}

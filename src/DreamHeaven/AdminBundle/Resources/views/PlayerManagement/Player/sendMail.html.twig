@@ -1,0 +1,144 @@
+{% set fluid_layout = true %}
+{% extends 'DreamHeavenAdminBundle::layout-PlayerManagement.html.twig' %}
+{% import ('LianzSimpleFormBundle::helpers.html.twig') as sf %}
+
+{% block title %}
+在线角色管理 | 玩家管理
+{% endblock %}
+
+{% block extra_script_block %}
+  <script language="javascript">
+    $(document).ready(function(){
+      $.validator.addMethod("item1_info_valid", function(value, element) {
+        return ($("#item_id1").val()=='' && $("#item_num1").val()=='') || ($("#item_id1").val()!='' && $("#item_num1").val()!='')
+      }, "请输入合法的道具信息");
+
+      $.validator.addMethod("item2_info_valid", function(value, element) {
+        return ($("#item_id2").val()=='' && $("#item_num2").val()=='') || ($("#item_id2").val()!='' && $("#item_num2").val()!='')
+      }, "请输入合法的道具信息");
+
+      $.validator.addMethod("item3_info_valid", function(value, element) {
+        return ($("#item_id3").val()=='' && $("#item_num3").val()=='') || ($("#item_id3").val()!='' && $("#item_num3").val()!='')
+      }, "请输入合法的道具信息");
+
+      $.validator.addMethod("item4_info_valid", function(value, element) {
+        return ($("#item_id4").val()=='' && $("#item_num4").val()=='') || ($("#item_id4").val()!='' && $("#item_num4").val()!='')
+      }, "请输入合法的道具信息");
+
+      options = {
+        rules: {
+          realm:      "required",
+          server:     "required",  // for legacy
+          player_ids: "user_info_valid",
+          sender:     "required",
+          content:    "required",
+          item_id1:   { number: true, min: 1, item1_info_valid: true },
+          item_num1:  { number: true, min: 1, item1_info_valid: true },
+          item_id2:   { number: true, min: 1, item2_info_valid: true },
+          item_num2:  { number: true, min: 1, item2_info_valid: true },
+          item_id3:   { number: true, min: 1, item3_info_valid: true },
+          item_num3:  { number: true, min: 1, item3_info_valid: true },
+          item_id4:   { number: true, min: 1, item4_info_valid: true },
+          item_num4:  { number: true, min: 1, item4_info_valid: true },
+
+          note:       { required: true, minlength: 5 },
+        },
+
+        groups: {
+          item1: "item_id1 item_num1",
+          item2: "item_id2 item_num2",
+          item3: "item_id3 item_num3",
+          item4: "item_id4 item_num4",
+        },
+
+        errorPlacement: function(error, element) {
+          var name = element.attr("name");
+          if (name == "player_ids")
+            error.insertAfter("#user_info_checker_container");
+          else if (name == "item_id1" || name == "item_num1")
+            $("#item_num1").append(error);
+          else if (name == "item_id2" || name == "item_num2")
+            $("#item_num2").append(error);
+          else if (name == "item_id3" || name == "item_num3")
+            $("#item_num3").append(error);
+          else if (name == "item_id4" || name == "item_num4")
+            $("#item_num4").append(error);
+          else
+            error.insertAfter(element);
+        },
+      };
+
+      options = $.extend({}, common_validation_options, options);
+      $('#send_mail_form').validate(options);
+    });
+  </script>
+{% endblock %}
+
+{% block main_content %}
+  {% include('DreamHeavenAdminBundle::PlayerManagement/Player/tabs.html.twig') %}
+  <div class="span8">
+    <div class="row-fluid">
+      <form method="POST" action="{{ path('admin_player_management_player_send_mail') }}" class="form-horizontal" id="send_mail_form">
+
+        {% include('DreamHeavenAdminBundle::Shared/serverList_dropdownlist.html.twig') %}
+
+        <div class="control-group" id="player_widget_control_group">
+          <label class="control-label" for="note">选择玩家</label>
+          <div class="controls">
+            {% include('DreamHeavenAdminBundle::Shared/userInfoChecker.html.twig') %}
+          </div>
+        </div>
+
+        {{ sf.field(form.sender,  'text', '发件人', true, {}, {'attrs': {'placeholder': '请输入发件人', 'class': 'input-xxlarge', 'style': 'width: 100%;'}}) }}
+        {{ sf.field(form.content, 'textarea', '邮件正文', true, {}, {'attrs': {'rows': 3, 'placeholder': '请输入邮件正文', 'class': 'input-xxlarge', 'style': 'width: 100%;'}}) }}
+
+        <div class="control-group{{ form.item_id1.error or form.item_num1.error ? ' error' : ''}}">
+          <label class="control-label" for="item_id1">第一件道具 ID</label>
+          <div class="controls controls-row" id="item_group_1">
+            <div class="input-append">
+              {{ sf.text(form.item_id1,  {'class': 'span4', 'placeholder': "附件道具ID"}) }}
+              {{ sf.text(form.item_num1, {'class': 'span2', 'placeholder': "数量"}) }}<span class="add-on">个</span>
+            </div>
+          </div>
+        </div>
+        <div class="control-group{{ form.item_id2.error or form.item_num2.error ? ' error' : ''}}">
+          <label class="control-label" for="item_id2">第二件道具 ID</label>
+          <div class="controls controls-row">
+            <div class="input-append" id="item_group_2">
+              {{ sf.text(form.item_id2,  {'class': 'span4', 'placeholder': "附件道具ID"}) }}
+              {{ sf.text(form.item_num2, {'class': 'span2', 'placeholder': "数量"}) }}<span class="add-on">个</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group{{ form.item_id3.error or form.item_num3.error ? ' error' : ''}}">
+          <label class="control-label" for="item_id3">第三件道具 ID</label>
+          <div class="controls controls-row">
+            <div class="input-append" id="item_group_3">
+              {{ sf.text(form.item_id3,  {'class': 'span4', 'placeholder': "附件道具ID"}) }}
+              {{ sf.text(form.item_num3, {'class': 'span2', 'placeholder': "数量"}) }}<span class="add-on">个</span>
+            </div>
+          </div>
+        </div>
+        <div class="control-group{{ form.item_id4.error or form.item_num4.error ? ' error' : ''}}">
+          <label class="control-label" for="item_id4">第四件道具 ID</label>
+          <div class="controls controls-row">
+            <div class="input-append" id="item_group_4">
+              {{ sf.text(form.item_id4,  {'class': 'span4', 'placeholder': "附件道具ID"}) }}
+              {{ sf.text(form.item_num4, {'class': 'span2', 'placeholder': "数量"}) }}<span class="add-on">个</span>
+            </div>
+          </div>
+        </div>
+
+        {{ sf.field(form.note, 'text', '操作备注(最少5个字)', true, {}, {'attrs': {'placeholder': '请输入操作备注', 'class': 'input-xxlarge', 'style': 'width: 100%;'}}) }}
+
+        <div class="control-group">
+          <div class="controls">
+            {{ sf.submit('发送邮件', false) }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

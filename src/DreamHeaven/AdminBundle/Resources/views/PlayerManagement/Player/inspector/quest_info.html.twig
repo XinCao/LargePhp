@@ -1,0 +1,32 @@
+{% if player_info['quest_info'] is defined  %}
+{%
+  set statusTexts = {
+        '0': '未知状态',
+        '3': '已接任务',
+        '4': '完成任务，未领取奖励',
+        '5': '已经完成任务',
+    }
+%}
+<div class="tab-pane" id="quest_info">
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>任务ID</th>
+            <th>任务名称</th>
+            <th>完成状态</th>
+            <th>完成次数</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for info in player_info['quest_info'] %}
+            <tr>
+               <td>{{ info['quest_id'] }}</td>
+               <td>{{ info['quest_id'] }}</td>
+               <td>{{ attribute(statusTexts, info['status']) }}</td>
+               <td>{{ info['complete_count'] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

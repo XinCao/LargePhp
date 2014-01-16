@@ -1,0 +1,8 @@
+admin_bundle:
+  validator_errors:
+    valid_server:      服务器参数不正确
+    valid_player_ids:  玩家 ID 列表参数不正确
+
+authentication:
+  errors:
+    bad_credentials:   用户名或密码不正确

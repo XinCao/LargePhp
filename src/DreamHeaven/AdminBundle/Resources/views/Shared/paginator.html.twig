@@ -1,0 +1,14 @@
+{% block pagination_bar %}
+    {% if paging is defined and paging is not empty %}
+    {% set tab = app.request.query.get('tab') %}
+    {% set params = tab ? {'tab': tab} : {} %}
+    <ul class="pager">
+        <li{{ paging.prev is not defined ? ' class="disabled"' : '' }}>
+            <a href="{{ path(current_route, params|merge(paging.prev|default({}))) }}">上一页</a>
+        </li>
+        <li{{ paging.next is not defined ? ' class="disabled"' : '' }}>
+            <a href="{{ path(current_route, params|merge(paging.next|default({}))) }}">下一页</a>
+        </li>
+    </ul>
+    {% endif %}
+{% endblock %}

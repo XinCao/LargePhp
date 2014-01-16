@@ -1,0 +1,44 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+  encoders:
+    DreamHeaven\CoreBundle\Entity\User:
+      algorithm:        sha512
+      encode_as_base64: false
+
+  role_hierarchy:
+    ROLE_MANAGER:     [ROLE_REPORT_VIEWER, ROLE_GM, ROLE_MANAGER]
+    ROLE_ADMIN:       [ROLE_REPORT_VIEWER, ROLE_GM, ROLE_MANAGER, ROLE_ADMIN]
+    ROLE_SUPER_ADMIN: [ROLE_REPORT_VIEWER, ROLE_GM, ROLE_MANAGER, ROLE_ADMIN, ROLE_SUPER_ADMIN]
+
+  acl:
+    connection:       default
+
+  providers:
+    fos_userbundle:
+      id:                     fos_user.user_manager
+
+    admin_account_provider:
+      id:                     admin_account_provider
+
+  firewalls:
+    admin:
+      pattern:                ^/admin
+      anonymous:              true
+      access_denied_url:      /admin/access-denied
+      form_login:
+        provider:             admin_account_provider
+        login_path:           /admin/login
+        check_path:           /admin/login-check
+        username_parameter:   username
+        password_parameter:   password
+        default_target_path:  /admin/game-management/overview
+        success_handler:      admin_login_redirector
+      logout:
+        path:                 /admin/logout
+        target:               /admin/login
+      switch_user:
+        parameter:            _switch_user
+        role:                 ROLE_ALLOWED_TO_SWITCH

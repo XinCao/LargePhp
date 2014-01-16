@@ -1,0 +1,31 @@
+{% block tabs %}
+{%
+set tabs = [
+             {
+                'name':                 '用户列表',
+                'route':                'admin_game_master_user_management_index',
+                'icon':                 'icon-list',
+             },
+             {
+                'name':                 '创建用户',
+                'icon':                 'icon-plus',
+                'route':                'admin_game_master_user_management_new',
+             },
+           ]
+%}
+{% if current_route == 'admin_game_master_user_management_edit' %}
+  {% set edit_tab = [
+                      {
+                      'name':                 '编辑用户',
+                      'icon':                 'icon-edit',
+                      'route':                'admin_game_master_user_management_edit',
+                      'routeParameters':      app.request.attributes.get('_route_params'),
+                      }
+                    ]
+  %}
+  {% set tabs = tabs|merge(edit_tab) %}
+{% endif %}
+<div class="row-fluid">
+    {{ knp_menu_render('DreamHeavenAdminBundle:TabBuilder:tabs', {'currentClass': 'active', 'tabs': tabs}) }}
+</div>
+{% endblock %}

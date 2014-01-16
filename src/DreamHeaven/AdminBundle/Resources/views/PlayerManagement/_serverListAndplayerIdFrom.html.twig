@@ -1,0 +1,53 @@
+
+{% block extra_script_block %}
+<script language="javascript">
+
+    $(document).ready(function(){
+        options = {
+                rules:{
+                    realm:{
+                        required : true
+                    },
+                    player_id:{
+                        minlength:1
+                    }
+                }
+            };
+     $('#report_form').validate(options);
+   });
+ </script>
+{% endblock %}
+
+<div class="row-fluid">
+	<form class="form-inline well well-small" action="{{ path(current_route) }}" method="GET" id="report_form">
+		<div class="control-group{{ form.errors is not empty ? ' error' : ''}}">
+			{% if form.errors is not empty %}
+			<label class="control-label">请正确输入条件</label>
+			{% endif %}
+            <div class="control">
+                <div class="controls controls-row">
+                    <label class="control-label" for="realm">选择服务器</label>
+                    {% set realm = form.realm.value %}
+                    <select name="realm">
+                        <option value="" {{ realm is empty ? 'selected="selected"' : '' }}>
+                            请选择一个服务器
+                        </option>
+                        {% for info in realms %}
+                        <option value="{{ info.id }}" {{ (realm is not empty and realm == info.realm) ? 'selected="selected"' : '' }}>
+                            {{ info.full_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <label class="control-label" for="player_id">玩家 ID</label>
+                    <input
+                        type="text"
+                        name="player_id"
+                        id="player_id"
+                        placeholder="请输入要查看的玩家的 ID"
+                    />
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+		</div>
+	</form>
+</div>

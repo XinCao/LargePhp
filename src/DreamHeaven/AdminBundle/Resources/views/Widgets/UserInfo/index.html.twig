@@ -1,0 +1,25 @@
+{% extends 'DreamHeavenAdminBundle::Widgets/base.html.twig' %}
+
+{% block widget_header %}
+<i class="icon-file"></i>
+用户信息
+{% endblock %}
+
+{% block widget_body %}
+<dl class="dl-horizontal" style="margin: 0px;">
+    <dt style="width: 100px;">名字：</dt>
+    <dd name="" style="margin-left: 100px;">
+        <a href="/admin/customer_service/users/{{ user_id }}" target="_new">{{ name }}</a>
+    </dd>
+    <dt style="width: 100px;">我的角色：</dt>
+    <dd name="" style="margin-left: 100px;">
+        {% for role in roles %}
+        {{ role }}<br/>
+        {% endfor %}
+    </dd>
+    <dt style="width: 100px;">最后登录：</dt>
+    <dd name="" style="margin-left: 100px;">
+        {{ last_login|date('Y-m-d H:i:s') }}
+    </dd>
+</dl>
+{% endblock %}

@@ -1,0 +1,26 @@
+# 导入默认值，然后下面的parameters只需要覆盖有变化的项就可以了
+imports:
+  - { resource:                         parameters_defaults.yml}
+  - { resource:                         platforms.yml}
+
+# 用当前环境特定的配置覆盖 parameters_defaults.yml 中的默认值
+parameters:
+
+  doctrine.metadata_cache_driver:       array
+
+  # dbs
+  db_connections.default.db_name:       large_php
+  db_connections.default.driver:        pdo_mysql
+  db_connections.default.host:          127.0.0.1
+  db_connections.default.port:          3306
+  db_connections.default.user:          root
+  db_connections.default.password:      caoxin
+  db_connections.default.charset:       utf8
+
+  cache.redis.database:                 1
+  fnordmetric.redis_database:           2
+
+  # email settings
+  mailer.fos_user_mailer:               fos_user.mailer.noop
+
+  framework.trusted_proxies:            [10.10.10.10]

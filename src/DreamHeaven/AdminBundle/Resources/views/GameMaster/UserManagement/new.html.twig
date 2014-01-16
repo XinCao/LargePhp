@@ -1,0 +1,26 @@
+{% extends 'DreamHeavenAdminBundle::layout-GameMaster.html.twig' %}
+{% use('DreamHeavenAdminBundle::GameMaster/UserManagement/_edit_user_form.html.twig') %}
+
+{% block title %}
+创建用户 | 后台管理
+{% endblock %}
+
+{% block main_content %}
+
+  {% include('DreamHeavenAdminBundle::GameMaster/UserManagement/tabs.html.twig') %}
+
+  <div class="row-fluid">
+    <form class="form-horizontal" id="edit_user_form" method="POST" action="{{path('admin_game_master_user_management_create')}}">
+    <fieldset>
+
+    {{ block('edit_user_form') }}
+
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">创建用户</button>
+      </div>
+    </div>
+    </fieldset>
+  </form>
+  </div>
+{% endblock %}

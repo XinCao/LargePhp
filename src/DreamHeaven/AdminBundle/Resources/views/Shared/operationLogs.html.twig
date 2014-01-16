@@ -1,0 +1,78 @@
+{% block operation_history %}
+  <script language="javascript">
+    $(document).ready(function(){
+      $('.toggle-panel').click(function(){
+        var panel = $(this).data('panel');
+        $(panel).toggle();
+      });
+    });
+  </script>
+  <div class="row-fluid">
+  {% if entries is empty %}
+      <h1>暂无记录</h1>
+  {% else %}
+    <table class="table table-condensed">
+      <thead>
+      <tr class="info">
+        <th width="50">ID</th>
+        <th width="100">操作</th>
+        <th width="100">操作者</th>
+        <th width="150">服务器(点击展开列表)</th>
+        <th>操作数据</th>
+        <th width="250">操作备注</th>
+        <th width="200">操作结果(点击展开详细结果)</th>
+        <th width="140">操作时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for entry in entries %}
+        {% set panel = "panel-#{entry.id}" %}
+        <tr>
+          <td>{{ entry.id is defined ? entry.id : '' }}</td>
+          <td>{{ entry.op_name is defined ? entry.op_name: '' }}</td>
+          <td>{{ entry.user.display_name is defined ? entry.user.display_name : '<未知用户>' }}</td>
+          <td>
+            <span class="label label-info toggle-panel" data-panel=".{{ panel }}">{{ entry.server_names|slice(0, 15) }}...</span>
+            <div class="{{ panel }}" style="display:none;background-color: #fff;">
+              <table class="table">
+                {% for info in entry.servers %}
+                <tr>
+                  <td>{{ info.full_name is defined ? info.full_name : "(#{info.realm}服) #{info.name}" }}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </td>
+          <td><span class="toggle-panel" data-panel=".{{ panel }}">{{ entry.content|length > 25 ? "#{entry.content|slice(0, 25)}..." : entry.content }}</span>
+            <div class="{{ panel }}" style="display:none;background-color: #fff;">
+              {{ entry.content|nl2br }}
+            </div>
+          </td>
+          <td>{{ entry.note }}</td>
+          <td>
+            <span class="label label-{{ entry.op_result == 'success' ? 'success' : 'important' }} toggle-panel" data-panel=".panel-{{ entry.id }}">{{ entry.op_result == 'success' ? '成功' : '失败' }}</span>
+            <div class="{{ panel }}" style="display:none;background-color: #fff;">
+              <table class="table">
+                {% for info in entry.result %}
+                {% if info.succeed is defined %}}
+                <tr {{ info.succeed  ? 'class="success"' : 'class="error"' }}>
+                  <td>{{ info.full_name is defined ? info.full_name : "(#{info.realm}服) #{info.name}" }}</td>
+                  <td width="30">{{ info.succeed ? '成功' : '失败' }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </table>
+            </div>
+          </td>
+          <td>{{ entry.created_at|date('Y-m-d H:i:s') }}</td>
+          <td></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  </div>
+  
+  {% include('DreamHeavenAdminBundle::Shared/paginator.html.twig') %}
+
+{% endblock %}

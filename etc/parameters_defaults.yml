@@ -1,0 +1,34 @@
+parameters:
+  locale:                                   zh
+  secret:                                   fdsf78ds12ds4fc89we4f2d1v657f489e4fd1v56dsacv4a89x235c49w8dc45ds56c1a
+  private_key_passphrase:                   ZnVja2NwYyEvYnkvd3Rm
+
+  passport_url:                             "http://my.mark.dreamheaven.com"
+  mail_sender:                              {"noreply@dreamheaven.com": 喜讯无限系统通知}
+
+  cache.redis.host:                         localhost
+  cache.redis.port:                         6379
+  cache.redis.database:                     0
+
+  logging.email_notify.send_to:             liangzhenjing@gmail.com
+  logging.email_notify.send_from:           error-report@dreamheaven.com
+  logging.email_notify.subject:             "mark服务端发生错误，详见信内"
+
+  # dbs
+  #db_connections.default.db_name:           mark
+  db_connections.default.driver:            pdo_mysql
+  db_connections.default.host:              localhost
+  #db_connections.default.user:              dreamheaven
+  #db_connections.default.password:          dreamheaven
+
+  doctrine.metadata_cache_driver:           apc
+
+  # email settings
+  mailer.fos_user_mailer:                   fos_user.mailer.default
+  mailer.transport:                         smtp
+  mailer.host:                              localhost
+  mailer.user:                              ~
+  mailer.password:                          ~
+
+  framework.trusted_proxies:                []
+  

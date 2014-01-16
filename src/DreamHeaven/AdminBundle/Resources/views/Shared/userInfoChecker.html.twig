@@ -1,0 +1,59 @@
+{% block user_info_checker %}
+<script>
+    var player_inspect_url       = "{{ path('admin_player_management_player_inspect') }}";
+    var get_names_by_ids_api_url = "{{ path('admin_player_management_role_info_ajax_get_names_by_ids') }}";
+    var get_ids_by_names_api_url = "{{ path('admin_player_management_role_info_ajax_get_ids_by_names') }}";
+</script>
+<script src="{{ "#{app.request.basepath}/bundles/dreamheavenadmin/js/check_player_info.js" }}"></script>
+<div id="user_info_checker_container">
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+            <li class="info_tabs active" id="li_via_id" data-tab="via_id"><a href="#via_id" data-toggle="tab">通过 ID</a></li>
+            <li class="info_tabs" id="li_via_name" data-tab="via_name"><a href="#via_name" data-toggle="tab">通过名字</a></li>
+            <li><button style="width: 80px;" type="button" id="btn_check_player_info" class="btn btn-success btn-small span2">检查玩家</button></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="via_id">
+            {% if form is defined and form.player_ids is defined %}
+            {% set player_ids = form.player_ids.raw_value %}
+            {% endif %}
+                <textarea
+                    name="player_ids"
+                    id="player_ids"
+                    rows="5"
+                    placeholder="请输入玩家角色ID，多个 ID 请用空格或回车隔开"
+                    class="span12" >{{ player_ids is defined ? player_ids : '' }}
+                </textarea>
+                <span class="help-block">请输入玩家角色ID，多个玩家角色请用空格或回车隔开，最多 10 个</span>
+            </div>
+            <div class="tab-pane" id="via_name">
+            {% if form is defined and form.player_names is defined %}
+            {% set player_names = form.player_names.raw_value %}
+            {% endif %}
+                <textarea
+                    name="player_names"
+                    id="player_names"
+                    class="span12"
+                    placeholder="请输入玩家角色名字，多个角色请用空格或回车隔开"
+                    rows="5">{{ player_names is defined ? player_names : ''  }}
+                </textarea>
+                <span class="help-block">请输入玩家角色名字，多个角色请用空格或回车隔开，最多 10 个</span>
+            </div>
+        </div>
+    </div>
+    <table class="table table-condensed" id="player_infos_table" style="display: none;border: solid 3px #ddd;">
+        <thead>
+            <tr>
+                <th width="80">ID</th>
+                <th>名字</th>
+                <th width="50">职业</th>
+                <th width="50">等级</th>
+                <th width="80">VIP等级</th>
+                <th width="70">状态</th>
+            </tr>
+        </thead>
+        <tbody id="player_infos">
+        </tbody>
+    </table>
+</div>
+{% endblock %}

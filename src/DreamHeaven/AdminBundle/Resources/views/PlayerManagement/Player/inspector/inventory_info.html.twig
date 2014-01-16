@@ -1,0 +1,30 @@
+{% if player_info['inventory_info'] is defined  %}
+<div class="tab-pane" id="inventory_info">
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>道具ID</th>
+            <th>道具名字</th>
+            <th>模板ID</th>
+            <th>数量</th>
+            <th>过期时间</th>
+            <th>品质等级</th>
+            <th>强化等级</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for info in player_info['inventory_info'] %}
+            <tr>
+               <td>{{ info['obj_id'] }}</td>
+               <td>{{ info['item_name'] }}</td>
+               <td>{{ info['temp_id'] }}</td>
+               <td>{{ info['item_count'] }}</td>
+               <td>{{ info['expire_time'] }}</td>
+               <td>{{ info['quality_level'] }}</td>
+               <td>{{ info['upgrade_level'] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

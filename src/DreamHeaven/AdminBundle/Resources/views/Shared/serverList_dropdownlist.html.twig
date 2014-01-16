@@ -1,0 +1,19 @@
+{% set realm  = realm is defined ? realm : null %}
+{% set field_name = 'realm' %}
+{% set error = form is defined and form.realm is defined and form.realm.error ? true : false %}
+<div class="control-group{{ error ? ' error' : ''}}">
+  <label class="control-label" for="{{ field_name }}">请选择服务器</label>
+  <div class="controls" id="servers_widget_container">
+      <select name="realm">
+        <option value="" {{ (realm == '') ? 'selected="selected"' : '' }}>
+          请选择一个服务器
+        </option>
+        {% for id, info in realms %}
+          {% set current_realm = id %}
+          <option value="{{ current_realm }}" {{ (realm == current_realm) ? 'selected="selected"' : '' }}>
+            {{ info.full_name }}
+          </option>
+        {% endfor %}
+      </select>
+  </div>
+</div>

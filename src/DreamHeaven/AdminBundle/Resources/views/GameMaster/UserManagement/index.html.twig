@@ -1,0 +1,35 @@
+{% extends 'DreamHeavenAdminBundle::layout-GameMaster.html.twig' %}
+
+{% block title %}
+帐号管理 | 后台管理
+{% endblock %}
+
+{% block main_content %}
+
+  {% include('DreamHeavenAdminBundle::GameMaster/UserManagement/tabs.html.twig') %}
+
+  <div class="row-fluid">
+    <table class="table">
+      <tr>
+        <td>ID</td>
+        <td>登录帐号</td>
+        <td>名字</td>
+        <td>用户组</td>
+        <td>是否有效</td>
+        <td>最后登录时间</td>
+        <td>操作</td>
+      </tr>
+      {% for user in users %}
+        <tr>
+          <td>{{user.id}}</td>
+          <td><a href="{{path('admin_game_master_user_management_edit', {'id': user.id})}}">{{user.username}}</a></td>
+          <td>{{user.display_name}}</td>
+          <td>{{user.roles}}</td>
+          <td>{{user.enabled ? '是' : '否'}}</td>
+          <td>{{user.last_login}}</td>
+          <td><a href="{{path('admin_game_master_user_management_edit', {'id': user.id})}}">编辑</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}

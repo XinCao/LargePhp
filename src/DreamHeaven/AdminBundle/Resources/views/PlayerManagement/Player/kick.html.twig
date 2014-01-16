@@ -1,0 +1,83 @@
+{% set fluid_layout = true %}
+{% extends 'DreamHeavenAdminBundle::layout-PlayerManagement.html.twig' %}
+
+{% block title %}
+在线角色管理 | 游戏管理
+{% endblock %}
+
+{% block extra_script_block %}
+  <script language="javascript">
+    $(document).ready(function(){
+
+      $.validator.addMethod("player_chosen", function(value, element) {
+        return $('#chk_kick_all:checked').size() > 0 || $(document).data('_user_info_checker.all_ok');
+      }, "请输入玩家 ID 或者选择所有踢所有玩家");
+
+      $('#chk_kick_all').click(function(){
+        if($(this).attr('checked') === 'checked') {
+          $('#user_info_checker_container').hide();
+        } else {
+          $('#user_info_checker_container').show();
+        }
+      });
+
+      {% if kick_all is defined and kick_all == '1' %}
+        $('#chk_kick_all').trigger("click");
+        $('#user_info_checker_container').hide();
+      {% endif %}
+
+      options = {
+        rules: {
+            server:       "required",
+            chk_kick_all: "player_chosen",
+            note:         { required: true, minlength: 5 }
+        }
+    };
+
+      options = $.extend({}, common_validation_options, options);
+      $('#kick_role_form').validate(options);
+    });
+  </script>
+{% endblock %}
+
+{% block main_content %}
+
+  {% include('DreamHeavenAdminBundle::PlayerManagement/Player/tabs.html.twig') %}
+
+  <div class="span8">
+    <div class="row-fluid">
+      <form method="POST" action="{{ path('admin_player_management_player_do_kick') }}" class="form-horizontal" id="kick_role_form">
+
+        {% include('DreamHeavenAdminBundle::Shared/serverList_dropdownlist.html.twig') %}
+
+        <div class="control-group" id="player_widget_control_group">
+          <label class="control-label" for="note">选择玩家</label>
+          <div class="controls">
+            <div style="margin-bottom: 20px;">
+              <label class="checkbox">
+                <input type="checkbox" name="kick_all" id="chk_kick_all" class="input-xxlarge" value="1" />
+                踢所有玩家下线
+              </label>
+            </div>
+            {% include('DreamHeavenAdminBundle::Shared/userInfoChecker.html.twig') %}
+          </div>
+        </div>
+
+
+        <div class="control-group">
+          <label class="control-label" for="note">操作备注(最少5个字)</label>
+          <div class="controls">
+            <input type="text" name="note" id="note" placeholder="请输入操作备注" class="input-xxlarge" style="width: 100%;" value="{{ note }}" >
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="controls">
+            <button class="btn btn-primary confirm_required" type="submit">踢玩家下线</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

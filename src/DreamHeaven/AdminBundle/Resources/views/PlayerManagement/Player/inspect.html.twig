@@ -1,0 +1,60 @@
+{% set fluid_layout = true %}
+{% extends 'DreamHeavenAdminBundle::layout-PlayerManagement.html.twig' %}
+
+{% block title %}
+查看玩家信息 | 游戏管理
+{% endblock %}
+
+{% block extra_script_block %}
+  <script language="javascript">
+    $(document).ready(function(){
+
+      options = {
+        rules: {
+            server:    "required",
+            player_id: "required"
+        }
+    };
+
+      options = $.extend({}, common_validation_options, options);
+      $('#palyer_inspect_form').validate(options);
+    });
+  </script>
+{% endblock %}
+
+{% block main_content %}
+
+  {% include('DreamHeavenAdminBundle::PlayerManagement/Player/tabs.html.twig') %}
+
+  <div class="span8">
+      <div class="row-fluid">
+          <form method="GET" action="{{ path('admin_player_management_player_inspect') }}" class="form-horizontal" id="palyer_inspect_form">
+
+            {% include('DreamHeavenAdminBundle::Shared/serverList_dropdownlist.html.twig') %}
+
+            <div class="control-group">
+              <label class="control-label" for="player_id">玩家 ID</label>
+              <div class="controls controls-row">
+                <input type="hidden" name="platform" value="{{ current_platform }}" />
+                <input
+                    type="text"
+                    name="player_id"
+                    id="player_id"
+                    placeholder="请输入要查看的玩家的 ID"
+                    class="span12"
+                    value="{{ player_id }}"
+                />
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <button type="submit" class="btn btn-primary">查看</button>
+              </div>
+            </div>
+          </form>
+      </div>
+  </div>
+
+  {% include 'DreamHeavenAdminBundle::PlayerManagement/Player/inspector/inspector.html.twig' %}
+
+{% endblock %}

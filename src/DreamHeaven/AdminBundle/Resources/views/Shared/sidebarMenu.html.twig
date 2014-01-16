@@ -1,0 +1,15 @@
+{% block sidebar_menu %}
+<div class="widget">
+    <div class="widget-header">
+        <a href="{{ path('admin_settings_account_edit') }}" class="section-head">
+            {{ current_user.display_name }}
+        </a>
+    </div> <!-- /widget-header -->
+    <div class="widget-nopad">
+        <div class="widget-content">
+          {% block sidebar_menu_body %}
+          {% endblock %}
+        </div>
+    </div> <!-- /widget-content -->
+</div>
+{% endblock %}

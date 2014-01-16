@@ -1,0 +1,11 @@
+{% block sidebar_menu_body %}
+  {%
+  set tabs = [
+               {
+                  'name':                 '账户设置',
+                  'route':                'admin_settings_account_edit',
+               },
+             ]
+  %}
+  {{ knp_menu_render('DreamHeavenAdminBundle:TabBuilder:tabs', {'currentClass': 'active', 'tabs': tabs, 'class': 'nav nav-list'}) }}
+{% endblock %}

@@ -1,0 +1,5 @@
+[23-Aug-2013 02:28:21 UTC] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to use ApcClassLoader as APC is not enabled.' in C:\wamp\www\LargePhp\app\bootstrap.php.cache:1039
+Stack trace:
+#0 C:\wamp\www\LargePhp\web\app.php(10): Symfony\Component\ClassLoader\ApcClassLoader->__construct('sf2', Object(Composer\Autoload\ClassLoader))
+#1 {main}
+  thrown in C:\wamp\www\LargePhp\app\bootstrap.php.cache on line 1039

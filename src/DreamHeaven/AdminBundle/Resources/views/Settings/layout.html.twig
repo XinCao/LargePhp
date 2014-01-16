@@ -1,0 +1,23 @@
+{% extends 'DreamHeavenAdminBundle::layout-Base.html.twig' %}
+{% use('DreamHeavenAdminBundle::Shared/sidebarMenu.html.twig') %}
+{% use('DreamHeavenAdminBundle::Settings/menus.html.twig') %}
+
+{% block sidebar %}
+  {{ block('sidebar_menu') }}
+{% endblock %}
+
+{% block container %}
+  <section id="content">
+  <div class="container">
+      <div class="row">
+          <div class="span3">
+              {{ block('sidebar') }}
+          </div>
+          <div class="span8" id="main_content_span">
+              {{ block('flash_message') }}
+              {% block main_content %}{% endblock %}
+          </div>
+      </div>
+  </div>
+  </section>
+{% endblock %}

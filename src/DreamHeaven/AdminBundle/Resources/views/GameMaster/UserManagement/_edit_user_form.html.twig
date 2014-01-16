@@ -1,0 +1,82 @@
+{% block extra_script_block %}
+  <script language="javascript">
+    $(document).ready(function(){
+      options = {
+                  rules: {
+                    username:     {required: true, pattern: /^[a-z0-9_-]+$/, minlength: 2, maxlength: 25},
+                    display_name: {required: true, minlength: 2, maxlength: 25},
+                    password:     {minlength: 2, maxlength: 25},
+                    password2:    {minlength: 2, maxlength: 25},
+                    "roles[]":    "required",
+                  }
+      };
+
+      //options = $.extend({}, common_validation_options, options);
+      $('#edit_user_form').validate(options);
+    });
+  </script>
+{% endblock %}
+
+{% block edit_user_form %}
+
+  {% set is_super_admin = id is defined and id == 1 %}
+  <div class="control-group">
+    <label class="control-label" for="username">登录用户名</label>
+    <div class="controls">
+      <input type="text" id="username" name="username" placeholder="只接受字母和数字做用户名" value="{{username is defined ? username : ''}}" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="display_name">姓名</label>
+    <div class="controls">
+      <input type="text" id="display_name" name="display_name" placeholder="为方便管理，请使用真实姓名" value="{{display_name is defined ? display_name : ''}}" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">密码</label>
+    <div class="controls">
+      <input type="password" name="password" id="inputPassword" placeholder="密码" value="{{password is defined ? password : ''}}">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">确认密码</label>
+    <div class="controls">
+      <input type="password" name="password2" id="inputPassword" placeholder="密码" value="{{password2 is defined ? password2 : ''}}">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="row-fluid">
+      <div class="span6">
+        <label class="control-label" for="">用户组</label>
+        <div class="controls">
+          {% if user_roles is defined and user_roles is not empty %}
+            {% for role, role_display_name in user_roles %}
+              {% set checked = is_super_admin or (roles is defined and role in roles) %}
+                <label class="checkbox">
+                  <input type="checkbox" name="roles[]" value="{{ role }}" {{ checked ? 'checked="checked"' : ''}} {{ is_super_admin ? 'disabled="disabled"' : ''}} /> {{ role_display_name }}
+                </label>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="span6">
+        <h4>用户组权限一览表</h4>
+        <ul>
+          <li>超级管理员：包含以下用户组，能做一切事情</li>
+          <li>经理：后台管理、游戏管理、玩家管理、运营报表</li>
+          <li>GM：玩家管理</li>
+          <li>运营：运营报表</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox" name="enabled" value="1" {{ is_super_admin or enabled is defined ? 'checked="checked"' : ''}}
+               {{ is_super_admin ? 'disabled="disabled"' : ''}}
+              />是否可以登录
+      </label>
+    </div>
+  </div>
+{% endblock %}

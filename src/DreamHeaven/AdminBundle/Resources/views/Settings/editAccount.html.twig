@@ -1,0 +1,83 @@
+{% extends 'DreamHeavenAdminBundle::Settings/layout.html.twig' %}
+
+{% import 'DreamHeavenAdminBundle::Shared/formHelpers.html.twig' as forms %}
+
+{% block title %}
+编辑账户信息 | 画说客服系统
+{% endblock %}
+
+{% block validation_scripts %}
+<script>
+$(document).ready(function() {
+    $("#edit_account_form").validate({
+        rules:{
+            "editaccount[display_name]":{
+                required:  true
+            },
+            "editaccount[old_password]":{
+                minlength: 5
+            },
+            "editaccount[new_password][first]":{
+                minlength: 5
+            },
+            "editaccount[new_password][second]":{
+                equalTo: "#editaccount_new_password_first",
+                minlength: 5
+            }
+        },
+        messages:{
+            "editaccount[old_password]":{
+                minlength:  jQuery.format("密码不能少于 {0} 个字符")
+            },
+            "editaccount[new_password][first]":{
+                minlength:  jQuery.format("新密码不能少于 {0} 个字符")
+            },
+            "editaccount[new_password][second]":{
+                equalTo:    "两次输入的密码不相同",
+                minlength:  jQuery.format("新密码不能少于 {0} 个字符")
+            }
+        },
+
+        errorClass: 'help-inline',
+
+        highlight:  function (label) {
+            $(label).closest('.control-group').removeClass('success').addClass('error');
+        },
+
+        success:    function (label) {
+            label.text('OK!').addClass('help-inline valid')
+                 .closest('.control-group').removeClass('error').addClass('success');
+        }
+    })
+});
+</script>
+{% endblock %}
+
+{% block main_content %}
+<div class="row">
+    <div class="span7">
+        <div class="widget">
+            <div class="widget-header">
+                <i class="icon-user"></i> 编辑账户
+            </div> <!-- /widget-header -->
+            <div class="widget-content">
+                <form id="edit_account_form" class="settings" action="{{ path('admin_settings_account_update') }}" method="POST" {{ form_enctype(form) }}>
+                    {{ forms.render_field(form.display_name, null,  {'attr': {'class': 'span5', 'value': user.display_name}}) }}
+                    {{ forms.render_field(form.old_password, null,  {'attr': {'class': 'span5'}}) }}
+                    {{ forms.render_field(form.new_password.first,  {'label': '新密码'},  {'attr': {'class': 'span5'}}) }}
+                    {{ forms.render_field(form.new_password.second, {'label': '再次输入新密码'},  {'attr': {'class': 'span5'}}) }}
+                    {{ form_widget(form._token) }}
+                    <div class="control-group">
+                        <div class="controls">
+                        <input class="btn btn-primary" type="submit" value="保存" />
+                        </div>
+                    </div>
+                </form>
+            </div> <!-- /widget-content -->
+        </div>
+    </div>
+    <!--/span-->
+</div>
+<!--/row-->
+<!--/span-->
+{% endblock %}

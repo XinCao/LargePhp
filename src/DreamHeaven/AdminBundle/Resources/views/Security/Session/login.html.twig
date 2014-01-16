@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html>
+<head>
+    <title>
+        登陆 - 梦想天堂运营系统
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="index,follow"/>
+    <link rel="shortcut icon" href="favicon.png" type="image/png"/>
+    {#{% stylesheets 'bundles/dreamheavenadmin/css/*' filter='cssrewrite' %}#}
+    {#{% endstylesheets %}#}
+    <link rel="stylesheet" href="{{ app.request.basepath }}/bundles/dreamheavenadmin/css/bootstrap.css"/>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/jquery.min.js"></script>
+    <script src="{{ app.request.basepath }}/bundles/dreamheavenadmin/js/bootstrap.js"></script>
+    <script language="javascript">
+        $(document).ready(function() {
+            $(".login-form input[name=username]").focus();
+        });
+    </script>
+
+    {% block extra_style_block %}
+    {% endblock %}
+
+    {% block extra_script_block %}
+    {% endblock %}
+</head>
+<body>
+<header style="background-color: #000;color:#fff; width:100%; text-align:center;padding: 20px; border-bottom: solid 1px #eee;position: fixed;bottom: top;left: 0;">
+<h1>系统登陆</h1>
+</header>
+
+<div class="container-fluid">
+    <div class="modal login-form" style="top: 25%">
+        <div class="modal-header" style="text-align: center;">
+            <h3>系统登陆</h3>
+            <h6 style="margin-left: 10px;"></h6>
+        </div>
+        <form id="login-form" action="{{ path('admin_session_login_check') }}" method="POST" class="login-form" style="padding: 10px; margin-bottom: 0px;">
+        <div class="modal-body">
+            {% if error %}
+                <div class="alert alert-error" id="error">
+                    {{ error }}
+                </div>
+            {% else %}
+                <div class="alert alert-error hide" id="error">
+                </div>
+            {% endif %}
+            <div class="row-fluid">
+                <div class="span3">
+                    
+                </div>
+                <div class="span9">
+                        <div class="control-group">
+                            <div class="input-prepend">
+                                <span class="add-on">
+                                    <i class="icon-user icon-blue"></i> 用户名
+                                </span><input name="username" value="" type="text" placeholder="请输入用户名..." tabindex="10">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="input-prepend">
+                                <span class="add-on">
+                                    <i class="icon-tag icon-blue"></i> 密&nbsp;&nbsp;&nbsp;码
+                                </span><input name="password" value="" type="password" placeholder="请输入密码..." tabindex="20">
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="btn_submit" type="submit"><i class="icon-ok icon-white" tabindex="30"></i> 登录</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<footer style="width:100%; text-align:center;border-top: solid 1px #eee;padding-top: 10px;margin-top: 20px;position: fixed;bottom: 0;left: 0;">
+    {% set year = "now"|date('Y') %}
+    <p>&copy; 梦想天堂 2012 - {{ year }}，保留所有权利</p>
+</footer>
+</body>
+</html>

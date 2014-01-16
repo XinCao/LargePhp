@@ -1,0 +1,100 @@
+admin_dashboard:
+  pattern:      /dashboard
+  defaults:     {_controller: DreamHeavenAdminBundle:Dashboard:index}
+  requirements: {_method: GET}
+
+admin_dashboard_alt:
+  pattern:      /
+  defaults:     {_controller: DreamHeavenAdminBundle:Dashboard:index}
+  requirements: {_method: GET}
+
+###############  勿动（开始） ###################
+admin_session_login:
+  pattern:      /login
+  defaults:     {_controller: DreamHeavenAdminBundle:Security\Session:login}
+  requirements: {_method: GET}
+
+admin_session_login_check:
+  pattern:      /login-check
+  defaults:     {_controller: DreamHeavenAdminBundle:Security\Session:loginCheck}
+  requirements: {_method: POST}
+
+admin_session_logout:
+  pattern:      /logout
+  defaults:     {_controller: DreamHeavenAdminBundle:Security\Session:logout}
+  requirements: {_method: GET}
+
+admin_session_access_denied:
+  pattern:      /access-denied
+  defaults:     {_controller: DreamHeavenAdminBundle:Security\Session:accessDenied}
+  requirements: {_method: GET}
+
+admin_settings_account_edit:
+  pattern:      /settings/account
+  defaults:     {_controller: DreamHeavenAdminBundle:Settings\Account:edit}
+  requirements: {_method: "GET"}
+
+admin_settings_account_update:
+  pattern:      /settings/account
+  defaults:     {_controller: DreamHeavenAdminBundle:Settings\Account:update}
+  requirements: {_method: "POST"}
+###############  勿动（结束） ###################
+
+############### 后台管理（开始）#################
+
+# 总览
+admin_game_master_overview_index:
+  pattern:      /game-master/overview
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\Overview:index}
+  requirements: {_method: GET}
+  
+# 服务器列表
+admin_game_master_realm_management_edit:
+  pattern:      /game-master/realms/edit
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\RealmManagement:edit}
+  requirements: {_method: GET|POST }
+
+# 帐号管理
+admin_game_master_user_management_index:
+  pattern:      /game-master/users
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\UserManagement:index}
+  requirements: {_method: GET}
+admin_game_master_user_management_new:
+  pattern:      /game-master/users/new
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\UserManagement:new}
+  requirements: {_method: GET}
+admin_game_master_user_management_edit:
+  pattern:      /game-master/users/edit/{id}
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\UserManagement:edit}
+  requirements: {_method: GET, id: "[0-9]+"}
+admin_game_master_user_management_create:
+  pattern:      /game-master/users
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\UserManagement:create}
+  requirements: {_method: POST}
+admin_game_master_user_management_update:
+  pattern:      /game-master/users/{id}
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\UserManagement:update}
+  requirements: {_method: PUT, id: "[0-9]+"}
+
+# 操作记录
+admin_game_master_operation_log_view_logs:
+  pattern:      /game-master/operation-logs
+  defaults:     {_controller: DreamHeavenAdminBundle:GameMaster\OperationLogView:logs}
+  requirements: {_method: GET}
+############### 后台管理（结束）#################
+
+############### 游戏管理（开始）#################
+
+# 总览
+admin_game_management_overview_index:
+  pattern:      /game-management/overview
+  defaults:     {_controller: DreamHeavenAdminBundle:GameManagement\Overview:index}
+  requirements: {_method: GET}
+  
+# 服务器信息
+admin_game_management_server_info_index:
+  pattern:      /game-management/server-info
+  defaults:     {_controller: DreamHeavenAdminBundle:GameManagement\ServerInfo:index}
+  requirements: {_method: GET}
+  
+############### 游戏管理（结束）#################

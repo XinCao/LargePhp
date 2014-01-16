@@ -1,0 +1,12 @@
+{% set fluid_layout = true %}
+{% extends 'DreamHeavenAdminBundle::layout-GameMaster.html.twig' %}
+
+{% block title %}
+操作记录查看 | 游戏管理
+{% endblock %}
+
+{% block main_content %}
+
+  {% include('DreamHeavenAdminBundle::Shared/operationLogs.html.twig') %}
+
+{% endblock %}

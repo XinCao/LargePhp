@@ -1,0 +1,17 @@
+{% extends 'DreamHeavenAdminBundle::layout-PlayerManagement.html.twig' %}
+
+{% block title %}
+总览 | 玩家管理
+{% endblock %}
+
+{% block main_content %}
+<div class="row-fluid">
+    <div class="span3">
+        {{ widget('UserInfo') }}
+    </div>
+    <div class="span3">
+        {{ widget('Hello') }}
+    </div>
+    <!--/span-->
+</div>
+{% endblock %}
