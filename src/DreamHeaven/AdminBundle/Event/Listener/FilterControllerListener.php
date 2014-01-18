@@ -1,11 +1,13 @@
 <?php
 
+namespace DreamHeaven\AdminBundle\Event\Listener;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-namespace DreamHeaven\AdminBundle\Event\Listener;
 
 class FilterControllerListener {
+
     protected $container;
     protected $logger;
     protected $options;
@@ -24,8 +26,7 @@ class FilterControllerListener {
      */
     public function onCoreController(FilterControllerEvent $e) {
         $controller = $e->getController();
-        if (!$this->checkCurrentSimulationProfile($controller)) 
-        {
+        if (!$this->checkCurrentSimulationProfile($controller)) {
             throw new AccessDeniedHttpException('Simulation user not found.');
         }
     }
@@ -42,4 +43,5 @@ class FilterControllerListener {
         }
         return true;
     }
+
 }

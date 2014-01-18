@@ -3,12 +3,13 @@
 namespace DreamHeaven\AdminBundle\Helper;
 
 class FormHelper {
+
     private static $flashBag;
 
     public static function init($flashBag) {
         self::$flashBag = $flashBag;
     }
-    
+
     /**
      * 
      * @abstract 对输入的 ID 和 Name 进行数量上的检查
@@ -37,47 +38,45 @@ class FormHelper {
         return $ok ? $playerInfos : false;
     }
 
-//
-//    public static function createServerPreprocessor($serverList)
-//    {
-//        $processor = function($realm) use($serverList){
-//            if($realm == 'ALL')
-//            {
-//                return 'ALL';
-//            }
-//
-//            $realms = (array)$realm;
-//            $filteredServerList = array_filter($serverList, function($s) use($realms) { return in_array($s['id'], $realms); });
-//            $ok = !(empty($filteredServerList) || empty($realms) || count($filteredServerList) !== count($realms));
-//            if(!$ok)
-//            {
-//                return false;
-//            }
-//
-//            return $realm;
-//        };
-//
-//        return $processor;
-//    }
+    public static function createServerPreprocessor($serverList) {
+        $processor = function($realm) use($serverList) {
+                    if ($realm == 'ALL') {
+                        return 'ALL';
+                    }
+
+                    $realms = (array) $realm;
+                    $filteredServerList = array_filter($serverList, function($s) use($realms) {
+                                return in_array($s['id'], $realms);
+                            });
+                    $ok = !(empty($filteredServerList) || empty($realms) || count($filteredServerList) !== count($realms));
+                    if (!$ok) {
+                        return false;
+                    }
+
+                    return $realm;
+                };
+
+        return $processor;
+    }
 
     public static function createServerValidator($realms) {
         $validator = function($realm) use($realms) {
-            if ($realm === 'ALL') {
-                return array(true, '');
-            }
-            if (!$realm) {
-                return array(false, 'admin_bundle.validator_errors.valid_server');
-            }
-            $realms = (array) $realm;
-            $filteredServerList = array_filter($realms, function($s) use($realms) {
-                return in_array($s['id'], $realms);
-            });
-            $ok = !(empty($filteredServerList) || count($filteredServerList) !== count($realms));
-            return $ok ? array(true, '') : array(false, 'admin_bundle.validator_errors.valid_server');
-        };
+                    if ($realm === 'ALL') {
+                        return array(true, '');
+                    }
+                    if (!$realm) {
+                        return array(false, 'admin_bundle.validator_errors.valid_server');
+                    }
+                    $realms = (array) $realm;
+                    $filteredServerList = array_filter($realms, function($s) use($realms) {
+                                return in_array($s['id'], $realms);
+                            });
+                    $ok = !(empty($filteredServerList) || count($filteredServerList) !== count($realms));
+                    return $ok ? array(true, '') : array(false, 'admin_bundle.validator_errors.valid_server');
+                };
         return $validator;
     }
-    
+
     /**
      * @abstract 检查服务器是否存在
      * @param array $realmIds

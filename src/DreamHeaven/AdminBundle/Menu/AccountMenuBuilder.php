@@ -1,13 +1,14 @@
 <?php
+
 namespace DreamHeaven\AdminBundle\Menu;
+
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Security\Core\Role\SwitchUserRole;
 
-class AccountMenuBuilder extends ContainerAware
-{
-    public function mainMenu(FactoryInterface $factory)
-    {
+class AccountMenuBuilder extends ContainerAware {
+
+    public function mainMenu(FactoryInterface $factory) {
         $menu = $factory->createItem('root');
         $menu->setCurrentUri($this->container->get('request')->getRequestUri());
 
@@ -21,8 +22,7 @@ class AccountMenuBuilder extends ContainerAware
         return $menu;
     }
 
-    public function switchUserMenu(FactoryInterface $factory)
-    {
+    public function switchUserMenu(FactoryInterface $factory) {
         $menu = $factory->createItem('root');
         $menu->setAttributes(array(
             'class' => 'pull-right',
@@ -48,7 +48,7 @@ class AccountMenuBuilder extends ContainerAware
             foreach (UserQuery::create()->find() as $eachUser) {
                 // only show links to different users
                 if ($username !== $eachUser->getUsername()) {
-                    $menu->addChild($eachUser->getUsername(), array('uri' => '?_switch_user='.$eachUser->getUsername()));
+                    $menu->addChild($eachUser->getUsername(), array('uri' => '?_switch_user=' . $eachUser->getUsername()));
                 }
             }
 
@@ -57,4 +57,5 @@ class AccountMenuBuilder extends ContainerAware
 
         return $menu;
     }
+
 }

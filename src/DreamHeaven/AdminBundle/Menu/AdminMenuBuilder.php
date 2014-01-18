@@ -1,12 +1,13 @@
 <?php
+
 namespace DreamHeaven\AdminBundle\Menu;
+
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
-class AdminMenuBuilder extends ContainerAware
-{
-    public function mainMenu(FactoryInterface $factory, array $options)
-    {
+class AdminMenuBuilder extends ContainerAware {
+
+    public function mainMenu(FactoryInterface $factory, array $options) {
         $menu = $factory->createItem('root');
         $menu->setUri($this->container->get('request')->getPathInfo());
         $menu->setChildrenAttribute('class', 'nav nav-list');
@@ -14,14 +15,11 @@ class AdminMenuBuilder extends ContainerAware
         $currentUser = $this->getCurrentUser();
         $menuItems = $this->getMenuItems($currentUser, $options);
 
-        foreach ($menuItems as $item)
-        {
+        foreach ($menuItems as $item) {
             $menuItem = $this->createMenuItem($factory, $item);
             $menuItem->setChildrenAttribute('class', 'nav nav-list');
-            if(isset($item['children']))
-            {
-                foreach ($item['children'] as $child)
-                {
+            if (isset($item['children'])) {
+                foreach ($item['children'] as $child) {
                     $childMenuItem = $this->createMenuItem($factory, $child);
                     $menuItem->addChild($childMenuItem);
                 }
@@ -33,8 +31,7 @@ class AdminMenuBuilder extends ContainerAware
         return $menu;
     }
 
-    public function accountMenu(FactoryInterface $factory)
-    {
+    public function accountMenu(FactoryInterface $factory) {
         $menu = $factory->createItem('root');
         $menu = $factory->createItem('root');
         $menu = $factory->createItem('root');
@@ -82,7 +79,7 @@ class AdminMenuBuilder extends ContainerAware
             foreach (UserQuery::create()->find() as $eachUser) {
                 // only show links to different users
                 if ($username !== $eachUser->getUsername()) {
-                    $menu->addChild($eachUser->getUsername(), array('uri' => '?_switch_user='.$eachUser->getUsername()));
+                    $menu->addChild($eachUser->getUsername(), array('uri' => '?_switch_user=' . $eachUser->getUsername()));
                 }
             }
 
@@ -92,29 +89,23 @@ class AdminMenuBuilder extends ContainerAware
         return $menu;
     }
 
-    protected function createMenuItem(FactoryInterface $factory, $item)
-    {
+    protected function createMenuItem(FactoryInterface $factory, $item) {
         $options = array('label' => $item['display_name']);
-        if(isset($item['uri']))
-        {
+        if (isset($item['uri'])) {
             $options['uri'] = $item['uri'];
-        }
-        elseif(isset($item['route_name']))
-        {
+        } elseif (isset($item['route_name'])) {
             $options['route'] = $item['route_name'];
         }
 
         $menuItem = $factory->createItem($item['name'], $options);
-        if(isset($item['icon']))
-        {
+        if (isset($item['icon'])) {
             $menuItem->setExtra('icon', $item['icon']);
         }
 
         return $menuItem;
     }
 
-    protected function getMenuItems($user, array $options)
-    {
+    protected function getMenuItems($user, array $options) {
         // $userLevel = $user->getLevel();
         $userLevel = 9;
         $doctrine = $this->container->get('doctrine');
@@ -127,24 +118,17 @@ class AdminMenuBuilder extends ContainerAware
         $menuItems = array();
         $subMenuItems = array();
         $menuCursor = $connection->executeQuery($mainMenuSql);
-        foreach ($menuCursor as $item)
-        {
-            if(!isset($item['parent']) || null === $item['parent'])
-            {
+        foreach ($menuCursor as $item) {
+            if (!isset($item['parent']) || null === $item['parent']) {
                 $menuItems[$item['name']] = $item;
-            }
-            else
-            {
+            } else {
                 $subMenuItems[] = $item;
             }
         }
 
-        foreach ($subMenuItems as $item)
-        {
-            if(isset($item['parent']) && null !== $item['parent'])
-            {
-                if(!isset($menuItems[$item['parent']]['children']))
-                {
+        foreach ($subMenuItems as $item) {
+            if (isset($item['parent']) && null !== $item['parent']) {
+                if (!isset($menuItems[$item['parent']]['children'])) {
                     $menuItems[$item['parent']]['children'] = array();
                 }
 
@@ -155,11 +139,11 @@ class AdminMenuBuilder extends ContainerAware
         return $menuItems;
     }
 
-    protected function getCurrentUser()
-    {
+    protected function getCurrentUser() {
         $token = $this->container->get('security.context')->getToken();
-        $user  = $token->getUser();
+        $user = $token->getUser();
 
         return $user;
     }
+
 }

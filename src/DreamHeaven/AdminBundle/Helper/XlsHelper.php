@@ -1,34 +1,35 @@
 <?php
+
 /**
  * This code can be applied to Mocaman
  * @author Xin Cao 
  */
+
 namespace DreamHeaven\AdminBundle\Helper;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class xlsHelper {
-
     /*
      * 功能：把array转为xls
      * 参数：$columnNames 列名， $data 数组 格式为 array(array(),array(),array(),array(),array(),array()), $response 响应对象
      * 返回：返回xls的响应对象
      */
+
     public static function getXlsFromArray($columnNames, $rows, JsonResponse $jsonResponse) {
-        $header = "";
+        $content = "";
         foreach ($columnNames as $row) {
-            $header.=$row . '\t';
+            $content.=$row . '\t';
         }
-        $header.='\n';
+        $content.='\n';
         foreach ($rows as $row) {
-            $data = null;
             foreach ($row as $i) {
-                $data.=(String) $i . '\t';
+                $content.= $i . '\t';
             }
-            $data.='\n';
-            $header.=$data;
+            $content.='\n';
         }
-        $jsonResponse->create($header);
+        $jsonResponse->create($content);
         return $jsonResponse;
     }
+
 }

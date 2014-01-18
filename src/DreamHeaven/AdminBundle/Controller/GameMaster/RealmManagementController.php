@@ -1,8 +1,7 @@
 <?php
-
-use DreamHeaven\CoreBundle\Controller\BaseController;
-
 namespace DreamHeaven\AdminBundle\Controller\GameMaster;
+
+use DreamHeaven\AdminBundle\Controller\BaseController;
 
 class RealmManagementController extends BaseController {
 
